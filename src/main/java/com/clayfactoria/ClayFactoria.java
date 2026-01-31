@@ -1,11 +1,25 @@
 package com.clayfactoria;
 
+import com.clayfactoria.actions.builders.BuilderActionSetTargetEntity;
+import com.clayfactoria.components.BrushComponent;
+import com.clayfactoria.systems.TargetBlockEventSystem;
+import com.hypixel.hytale.component.ComponentType;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.event.events.player.PlayerReadyEvent;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
+import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.npc.NPCPlugin;
 
-public class ClayFactoria extends JavaPlugin {
+import javax.annotation.Nonnull;
+
+public class  ClayFactoria extends JavaPlugin {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+    public static ComponentType<EntityStore, BrushComponent> brushComponentType;
 
     public ClayFactoria(JavaPluginInit init) {
         super(init);
@@ -14,5 +28,40 @@ public class ClayFactoria extends JavaPlugin {
 
     @Override
     protected void setup() {
+
+        LOGGER.atInfo().log("Registering Brush Component");
+        brushComponentType = this.getEntityStoreRegistry().registerComponent(BrushComponent.class, BrushComponent::new);
+        LOGGER.atInfo().log("Registering on Player Ready Event");
+        this.getEventRegistry().registerGlobal(PlayerReadyEvent.class, this::onPlayerReady);
+    }
+
+    @Override
+    protected void start() {
+        LOGGER.atInfo().log("Registering Target Block Event System");
+        this.getEntityStoreRegistry().registerSystem(new TargetBlockEventSystem());
+
+        NPCPlugin.get().registerCoreComponentType("SetTargetEntity", BuilderActionSetTargetEntity::new);
+    }
+
+    private void onPlayerReady(@Nonnull PlayerReadyEvent event) {
+        Player player = event.getPlayer();
+
+        World world = player.getWorld();
+        if (world == null) {
+            LOGGER.atSevere().log("onPlayerReady Failed: world was null");
+            return;
+        }
+
+        Ref<EntityStore> playerEntityRef = player.getReference();
+        if (playerEntityRef == null) {
+            LOGGER.atSevere().log("onPlayerReady Failed: playerEntityRef was null");
+            return;
+        }
+
+        world.execute(() -> {
+            Store<EntityStore> worldStore = world.getEntityStore().getStore();
+            worldStore.ensureAndGetComponent(playerEntityRef, BrushComponent.getComponentType());
+            LOGGER.atInfo().log("Successfully ensured Brush Component on Player");
+        });
     }
 }

@@ -587,6 +587,9 @@
                 "$Comment": "Temporarily disable interactable. May need to remove. TODO: Add Action below this Action for setting Command",
                 "Type": "SetInteractable",
                 "Interactable": false
+              },
+              {
+                "Type": "SetTargetEntity"
               }
             ]
           }
