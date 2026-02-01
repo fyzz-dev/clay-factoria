@@ -15,11 +15,10 @@ import java.util.List;
 public class BuilderWorldPathDefinition extends BuilderBase<WorldPathDefinition> {
     protected final BuilderObjectListHelper<WorldWaypointDefinition> waypoints = new BuilderObjectListHelper<>(WorldWaypointDefinition.class, this);
 
-
     @Nonnull
     @Override
     public String getShortDescription() {
-        return "List of transient path points";
+        return "List of world path points";
     }
 
     @Nonnull

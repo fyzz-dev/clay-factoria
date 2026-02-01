@@ -58,13 +58,16 @@ public class ActionSetPath  extends ActionBase {
         }
 
         Vector3d pathStartPosition = brushComponent.getPathStartPosition();
-//        Vector3d pathEnd = brushComponent.getPathEndPosition();
         Vector3f pathStartRotation = brushComponent.getPathStartRotation();
 
-        IPath<SimplePathWaypoint> path = this.pathDefinition.buildPath(pathStartPosition, pathStartRotation);
+        Vector3d pathEndPosition = brushComponent.getPathEndPosition();
+        Vector3f pathEndRotation = brushComponent.getPathEndRotation();
+
+        IPath<SimplePathWaypoint> path = this.pathDefinition.buildPath(pathStartPosition, pathStartRotation, pathEndPosition, pathEndRotation);
         npcComponent.getPathManager().setTransientPath(path);
 
-        LOGGER.atInfo().log(String.format("Action Set Path: execute -> Successfully set path %s", brushComponent.getPathStart().toString()));
+        String message = String.format("Action Set Path: execute -> Successfully set Start Path %s, and End Path %s", brushComponent.getPathStart().toString(), brushComponent.getPathEnd().toString());
+        LOGGER.atInfo().log(message);
         return true;
     }
 }

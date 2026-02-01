@@ -56,18 +56,14 @@ public class WorldPath implements IPath<SimplePathWaypoint> {
 
     @Nonnull
     public static IPath<SimplePathWaypoint> buildPath(
-            @Nonnull Vector3d origin, @Nonnull Vector3f rotation, @Nonnull Queue<WorldWaypointDefinition> instructions
+            @Nonnull Vector3d startPosition, @Nonnull Vector3f startRotation, @Nullable Vector3d endPosition, @Nullable Vector3f endRotation
     ) {
-        TransientPath path = new TransientPath();
-        path.addWaypoint(origin, rotation);
+        WorldPath path = new WorldPath();
+        path.addWaypoint(startPosition, startRotation);
 
-        while (!instructions.isEmpty()) {
-            WorldWaypointDefinition instruction = instructions.poll();
-
-            Vector3d instructionPosition = new Vector3d(instruction.getPositionX(), instruction.getPositionY(), instruction.getPositionZ());
-            Vector3f instructionRotation = new Vector3f(instruction.getRotationX(), instruction.getRotationY(), instruction.getRotationZ());
-
-            path.addWaypoint(instructionPosition, instructionRotation);
+        // If we only want to go to a single position, then leave end position and end rotation as null
+        if (endPosition != null &&  endRotation != null) {
+            path.addWaypoint(endPosition, endRotation);
         }
 
         return path;

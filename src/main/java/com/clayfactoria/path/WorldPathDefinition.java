@@ -7,7 +7,7 @@ import com.hypixel.hytale.server.core.universe.world.path.IPath;
 import com.hypixel.hytale.server.core.universe.world.path.SimplePathWaypoint;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayDeque;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class WorldPathDefinition {
@@ -18,8 +18,7 @@ public class WorldPathDefinition {
     }
 
     @Nonnull
-    public IPath<SimplePathWaypoint> buildPath(@Nonnull Vector3d position, @Nonnull Vector3f rotation) {
-        ArrayDeque<WorldWaypointDefinition> queue = new ArrayDeque<>(this.waypointDefinitions);
-        return WorldPath.buildPath(position, rotation, queue);
+    public IPath<SimplePathWaypoint> buildPath(@Nonnull Vector3d startPosition, @Nonnull Vector3f startRotation, @Nullable Vector3d endPosition, @Nullable Vector3f endRotation) {
+        return WorldPath.buildPath(startPosition, startRotation, endPosition, endRotation);
     }
 }
