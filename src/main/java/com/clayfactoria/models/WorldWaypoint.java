@@ -88,6 +88,6 @@ public class WorldWaypoint {
 
     @Override
     public String toString() {
-        return String.format("PathWaypoint {\nPosition(%f, %f, %f)\nRotation(%f, %f, %f)\n}", positionX, positionY, positionZ, rotationX, rotationY, rotationZ);
+        return String.format("WorldWaypoint: {Position(%f, %f, %f)}", positionX, positionY, positionZ);
     }
 }

@@ -75,7 +75,7 @@ public class ActionSetPath  extends ActionBase {
             IPath<SimplePathWaypoint> path = WorldPath.buildPath(pathStartPosition, pathStartRotation, null, null);
             npcComponent.getPathManager().setTransientPath(path);
 
-            String message = String.format("Set Single Point Pathing to: %s", brushComponent.getPathStart().toString());
+            String message = String.format("Set Single Point Pathing to: (%.0f, %.0f, %.0f)", pathStartPosition.x, pathStartPosition.y, pathStartPosition.z);
             player.sendMessage(Message.raw(message));
             LOGGER.atInfo().log(message);
             return true;
@@ -87,7 +87,7 @@ public class ActionSetPath  extends ActionBase {
         IPath<SimplePathWaypoint> path = WorldPath.buildPath(pathStartPosition, pathStartRotation, pathEndPosition, pathEndRotation);
         npcComponent.getPathManager().setTransientPath(path);
 
-        String message = String.format("Set Line Pathing from %s to %s", brushComponent.getPathStart().toString(), brushComponent.getPathEnd().toString());
+        String message = String.format("Set Line Pathing from (%.0f, %.0f, %.0f) to (%.0f, %.0f, %.0f)", pathStartPosition.x, pathStartPosition.y, pathStartPosition.z, pathEndPosition.x, pathEndPosition.y, pathEndPosition.z);
         player.sendMessage(Message.raw(message));
         LOGGER.atInfo().log(message);
         return true;
