@@ -1,6 +1,7 @@
 package com.clayfactoria.actions.builders;
 
 import com.clayfactoria.actions.ActionSetPath;
+import com.clayfactoria.path.WorldPathDefinition;
 import com.google.gson.JsonElement;
 import com.hypixel.hytale.builtin.path.path.TransientPathDefinition;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
@@ -8,7 +9,6 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderObjectReferenceHelper;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderValidationHelper;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
-import com.hypixel.hytale.server.npc.corecomponents.world.builders.BuilderActionMakePath;
 import com.hypixel.hytale.server.npc.instructions.Action;
 
 import javax.annotation.Nonnull;
@@ -17,7 +17,7 @@ import java.util.Set;
 
 public class BuilderActionSetPath extends BuilderActionBase {
 
-    protected final BuilderObjectReferenceHelper<TransientPathDefinition> transientPath = new BuilderObjectReferenceHelper<>(TransientPathDefinition.class, this);
+    protected final BuilderObjectReferenceHelper<WorldPathDefinition> worldPath = new BuilderObjectReferenceHelper<>(WorldPathDefinition.class, this);
 
     @Override
     @Nonnull
@@ -30,9 +30,9 @@ public class BuilderActionSetPath extends BuilderActionBase {
         this.requireObject(
                 data,
                 "Path",
-                this.transientPath,
+                this.worldPath,
                 BuilderDescriptorState.Stable,
-                "A transient path definition",
+                "A world path definition",
                 null,
                 new BuilderValidationHelper(this.fileName, null, this.internalReferenceResolver, null, null, this.extraInfo, null, this.readErrors)
         );
@@ -54,7 +54,7 @@ public class BuilderActionSetPath extends BuilderActionBase {
     @Override
     @Nonnull
     public String getShortDescription() {
-        return "Command break block";
+        return "Action set path";
     }
 
     @Override
@@ -64,7 +64,7 @@ public class BuilderActionSetPath extends BuilderActionBase {
     }
 
     @Nullable
-    public TransientPathDefinition getPath(@Nonnull BuilderSupport support) {
-        return this.transientPath.build(support);
+    public WorldPathDefinition getPath(@Nonnull BuilderSupport support) {
+        return this.worldPath.build(support);
     }
 }

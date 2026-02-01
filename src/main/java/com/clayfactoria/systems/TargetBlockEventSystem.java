@@ -1,7 +1,7 @@
 package com.clayfactoria.systems;
 
 import com.clayfactoria.components.BrushComponent;
-import com.clayfactoria.models.PathWaypoint;
+import com.clayfactoria.models.WorldWaypointDefinition;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
@@ -18,7 +18,6 @@ import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.SoundUtil;
-import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import org.jspecify.annotations.NonNull;
@@ -89,12 +88,12 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
         Vector3i targetBlockLoc = damageBlockEvent.getTargetBlock();
         Vector3f headRotation = headRotationComponent.getRotation();
 
-        PathWaypoint pathWaypoint = new PathWaypoint(targetBlockLoc.x, targetBlockLoc.y, targetBlockLoc.z, headRotation.x, headRotation.y, headRotation.z);
+        WorldWaypointDefinition worldWaypointDefinition = new WorldWaypointDefinition(targetBlockLoc.x, targetBlockLoc.y, targetBlockLoc.z, headRotation.x, headRotation.y, headRotation.z);
 
         if (brushComponent.getPathStart() == null) {
-            brushComponent.setPathStart(pathWaypoint);
+            brushComponent.setPathStart(worldWaypointDefinition);
         } else if (brushComponent.getPathEnd() == null) {
-            brushComponent.setPathEnd(pathWaypoint);
+            brushComponent.setPathEnd(worldWaypointDefinition);
         } else {
             brushComponent.setPathStart(null);
             brushComponent.setPathEnd(null);

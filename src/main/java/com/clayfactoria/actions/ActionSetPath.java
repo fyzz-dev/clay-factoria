@@ -2,6 +2,7 @@ package com.clayfactoria.actions;
 
 import com.clayfactoria.actions.builders.BuilderActionSetPath;
 import com.clayfactoria.components.BrushComponent;
+import com.clayfactoria.path.WorldPathDefinition;
 import com.hypixel.hytale.builtin.path.path.TransientPathDefinition;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -24,7 +25,7 @@ public class ActionSetPath  extends ActionBase {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     @Nullable
-    protected final TransientPathDefinition pathDefinition;
+    protected final WorldPathDefinition pathDefinition;
 
     public ActionSetPath(@Nonnull BuilderActionSetPath builder, @Nonnull BuilderSupport support) {
         super(builder);

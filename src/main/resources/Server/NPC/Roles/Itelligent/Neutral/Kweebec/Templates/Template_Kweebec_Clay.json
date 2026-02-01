@@ -544,7 +544,16 @@
               {
                 "Type": "SetPath",
                 "Path": {
-                  "Reference": "Component_Path_Point"
+                  "Waypoints": [
+                    {
+                      "PositionX": 140,
+                      "PositionY": 120,
+                      "PositionZ": 79,
+                      "RotationX": 0,
+                      "RotationY": 0,
+                      "RotationZ": 0
+                    }
+                  ]
                 }
               }
             ]

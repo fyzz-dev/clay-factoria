@@ -1,7 +1,7 @@
 package com.clayfactoria.components;
 
 import com.clayfactoria.ClayFactoria;
-import com.clayfactoria.models.PathWaypoint;
+import com.clayfactoria.models.WorldWaypointDefinition;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
@@ -20,13 +20,13 @@ public class BrushComponent implements Component<EntityStore> {
     @Nonnull
     public static final BuilderCodec<BrushComponent> CODEC = BuilderCodec.builder(BrushComponent.class, BrushComponent::new)
             .append(
-                    new KeyedCodec<>("PathStart", PathWaypoint.CODEC),
+                    new KeyedCodec<>("PathStart", WorldWaypointDefinition.CODEC),
                     (component, pos) -> component.pathStart = pos,
                     component -> component.pathStart
             )
             .documentation("The starting position for pathing").add()
             .append(
-                    new KeyedCodec<>("PathEnd", PathWaypoint.CODEC),
+                    new KeyedCodec<>("PathEnd", WorldWaypointDefinition.CODEC),
                     (component, pos) -> component.pathEnd = pos,
                     component -> component.pathEnd
             )
@@ -41,11 +41,11 @@ public class BrushComponent implements Component<EntityStore> {
 
     @Getter
     @Setter
-    private PathWaypoint pathStart;
+    private WorldWaypointDefinition pathStart;
 
     @Getter
     @Setter
-    private PathWaypoint pathEnd;
+    private WorldWaypointDefinition pathEnd;
 
     @Setter
     @Getter
