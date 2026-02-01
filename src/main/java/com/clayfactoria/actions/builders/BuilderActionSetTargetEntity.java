@@ -29,7 +29,7 @@ public class BuilderActionSetTargetEntity extends BuilderActionBase {
     @Override
     @Nonnull
     public String getShortDescription() {
-        return "Command break block";
+        return "Set Target Entity for Brush Component";
     }
 
     @Override

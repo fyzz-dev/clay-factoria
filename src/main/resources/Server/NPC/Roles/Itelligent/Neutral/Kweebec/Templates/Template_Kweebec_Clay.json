@@ -417,37 +417,6 @@
               ]
             },
             {
-              "$Comment": "Switch to State: Path",
-              "Continue": true,
-              "Sensor": {
-                "Type": "Any"
-              },
-              "Actions": [
-                {
-                  "Type": "MakePath",
-                  "Path": {
-                    "Reference": "Component_Path_Square",
-                    "Modify": {
-                      "Scale": 1
-                    }
-                  }
-                },
-                {
-                  "Type": "State",
-                  "State": "Path"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "$Comment": "Follow path",
-          "Sensor": {
-            "Type": "State",
-            "State": "Path"
-          },
-          "Instructions": [
-            {
               "Sensor": {
                 "Type": "Path",
                 "PathType": "TransientPath"
@@ -573,7 +542,10 @@
                 "Interactable": false
               },
               {
-                "Type": "SetTargetEntity"
+                "Type": "SetPath",
+                "Path": {
+                  "Reference": "Component_Path_Point"
+                }
               }
             ]
           }

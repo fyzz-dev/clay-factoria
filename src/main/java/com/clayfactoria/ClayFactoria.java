@@ -1,5 +1,6 @@
 package com.clayfactoria;
 
+import com.clayfactoria.actions.builders.BuilderActionSetPath;
 import com.clayfactoria.actions.builders.BuilderActionSetTargetEntity;
 import com.clayfactoria.components.BrushComponent;
 import com.clayfactoria.systems.TargetBlockEventSystem;
@@ -38,6 +39,7 @@ public class  ClayFactoria extends JavaPlugin {
 
     @Override
     protected void start() {
+
         ComponentType<EntityStore, NPCEntity> npcComponentType = NPCEntity.getComponentType();
         if (npcComponentType == null) {
             LOGGER.atSevere().log("Failed to Register Target Block Event System. NPC Entity ComponentType was null");
@@ -47,7 +49,11 @@ public class  ClayFactoria extends JavaPlugin {
         LOGGER.atInfo().log("Registering Target Block Event System");
         this.getEntityStoreRegistry().registerSystem(new TargetBlockEventSystem(npcComponentType));
 
+        LOGGER.atInfo().log("Registering Set Target Entity Action");
         NPCPlugin.get().registerCoreComponentType("SetTargetEntity", BuilderActionSetTargetEntity::new);
+
+        LOGGER.atInfo().log("Registering Set Path Action");
+        NPCPlugin.get().registerCoreComponentType("SetPath", BuilderActionSetPath::new);
     }
 
     private void onPlayerReady(@Nonnull PlayerReadyEvent event) {
