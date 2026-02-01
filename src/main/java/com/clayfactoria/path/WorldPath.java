@@ -52,12 +52,13 @@ public class WorldPath implements IPath<SimplePathWaypoint> {
     }
 
     @Nonnull
-    public static IPath<SimplePathWaypoint> buildPath(@Nonnull List<Vector3d> positions, @Nonnull List<Vector3f> rotations) {
+    public static IPath<SimplePathWaypoint> buildPath(@Nonnull List<Transform> transforms) {
+
         WorldPath path = new WorldPath();
 
-        for (int index = 0; index < positions.size(); index++) {
-            Vector3d position = positions.get(index);
-            Vector3f rotation = rotations.get(index);
+        for (Transform transform : transforms) {
+            Vector3d position = transform.getPosition();
+            Vector3f rotation = transform.getRotation();
 
             path.addWaypoint(position, rotation);
         }

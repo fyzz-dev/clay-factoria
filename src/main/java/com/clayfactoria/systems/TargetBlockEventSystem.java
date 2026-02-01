@@ -1,20 +1,22 @@
 package com.clayfactoria.systems;
 
 import com.clayfactoria.components.BrushComponent;
-import com.clayfactoria.models.WorldWaypoint;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.EntityEventSystem;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.math.vector.Transform;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.math.vector.Vector3i;
 import com.hypixel.hytale.protocol.SoundCategory;
 import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.DamageBlockEvent;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
+import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.SoundUtil;
@@ -24,6 +26,7 @@ import org.jspecify.annotations.NonNull;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, DamageBlockEvent> {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -57,27 +60,6 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
             return;
         }
 
-        damageBlockEvent.setDamage(0);
-
-//        UUID targetEntityId = brushComponent.getTargetEntityId();
-//        if (targetEntityId == null) {
-//            player.sendMessage(Message.raw("Target Entity Id was null").color(Color.RED));
-//            LOGGER.atWarning().log("Target Block Event System: Brush Component -> Target Entity Id was null");
-//            return;
-//        }
-
-//        World world = player.getWorld();
-//        if (world == null) {
-//            LOGGER.atSevere().log("Target Block Event System: world was null");
-//            return;
-//        }
-//
-//        Ref<EntityStore> entityRef = world.getEntityRef(targetEntityId);
-//        if (entityRef == null) {
-//            LOGGER.atSevere().log("Target Block Event System: entityRef was null");
-//            return;
-//        }
-
         // TODO: May need to use entityRef instead of entityStoreRef
         HeadRotation headRotationComponent = store.getComponent(entityStoreRef, HeadRotation.getComponentType());
         if (headRotationComponent == null){
@@ -88,30 +70,36 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
         Vector3i targetBlockLoc = damageBlockEvent.getTargetBlock();
         Vector3f headRotation = headRotationComponent.getRotation();
 
-        WorldWaypoint worldWaypoint = new WorldWaypoint(targetBlockLoc.x, targetBlockLoc.y, targetBlockLoc.z, headRotation.x, headRotation.y, headRotation.z);
+        TransformComponent entityTransformComp = store.getComponent(entityStoreRef, TransformComponent.getComponentType());
+        if (entityTransformComp == null) {
+            LOGGER.atSevere().log("Target Block Event System: entityTransformComp was null");
+            return;
+        }
 
-        if (brushComponent.getPathStart() == null) {
-            brushComponent.setPathStart(worldWaypoint);
-        } else if (brushComponent.getPathEnd() == null) {
-            brushComponent.setPathEnd(worldWaypoint);
-        } else {
-            brushComponent.setPathStart(null);
-            brushComponent.setPathEnd(null);
+        Transform targetTransform = entityTransformComp.getTransform().clone();
+        targetTransform.setPosition(new Vector3d(targetBlockLoc.x, targetBlockLoc.y, targetBlockLoc.z));
+        targetTransform.setRotation(headRotation);
+
+        BlockType blockType = damageBlockEvent.getBlockType();
+        if (blockType == BlockType.getAssetMap().getAsset("Rock_Stone_Cobble")) {
+
             player.sendMessage(Message.raw("Resetting path...").color(Color.YELLOW));
-
             ParticleUtil.spawnParticleEffect(
                     "Block_Break_Dust",
                     new Vector3d(targetBlockLoc.x + 0.5, targetBlockLoc.y + 1, targetBlockLoc.z + 0.5),
                     store
             );
-
             SoundUtil.playSoundEvent2d(
                     SoundEvent.getAssetMap().getIndex("SFX_Drag_Items_Clay"),
                     SoundCategory.SFX,
                     commandBuffer
             );
+            brushComponent.setPaths(new ArrayList<>());
             return;
         }
+
+        brushComponent.addPath(targetTransform);
+        damageBlockEvent.setDamage(0);
 
         ParticleUtil.spawnParticleEffect(
                 "Block_Hit_Dirt",

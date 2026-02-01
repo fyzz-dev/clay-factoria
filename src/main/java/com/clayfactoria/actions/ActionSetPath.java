@@ -6,6 +6,7 @@ import com.clayfactoria.path.WorldPath;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.math.vector.Transform;
 import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.math.vector.Vector3f;
 import com.hypixel.hytale.server.core.Message;
@@ -22,6 +23,7 @@ import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import javax.annotation.Nonnull;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ActionSetPath  extends ActionBase {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -61,43 +63,18 @@ public class ActionSetPath  extends ActionBase {
             return false;
         }
 
-        if (brushComponent.getPathStart() == null) {
+        if (brushComponent.getPaths() == null) {
             LOGGER.atWarning().log("Action Set Path: execute -> Brush Component: Path Start was null");
             player.sendMessage(Message.raw("You must set at least one target position with the Brush").color(Color.YELLOW));
             return false;
         }
 
-        Vector3d pathStartPosition = brushComponent.getPathStartPosition();
-        Vector3f pathStartRotation = brushComponent.getPathStartRotation();
+        List<Transform> paths = brushComponent.getPaths();
 
-        ArrayList<Vector3d> pathPositions = new ArrayList<>();
-        ArrayList<Vector3f> pathRotations = new ArrayList<>();
-
-        if (brushComponent.getPathEnd() == null) {
-            LOGGER.atInfo().log("Action Set Path: execute -> Brush Component: Path End was null. Targeting Path Start only");
-
-            pathPositions.add(pathStartPosition);
-            pathRotations.add(pathStartRotation);
-
-            IPath<SimplePathWaypoint> path = WorldPath.buildPath(pathPositions, pathRotations);
-            npcComponent.getPathManager().setTransientPath(path);
-
-            String message = String.format("Set Single Point Pathing to: (%.0f, %.0f, %.0f)", pathStartPosition.x, pathStartPosition.y, pathStartPosition.z);
-            player.sendMessage(Message.raw(message));
-            LOGGER.atInfo().log(message);
-            return true;
-        }
-
-        Vector3d pathEndPosition = brushComponent.getPathEndPosition();
-        Vector3f pathEndRotation = brushComponent.getPathEndRotation();
-
-        pathPositions.add(pathEndPosition);
-        pathRotations.add(pathEndRotation);
-
-        IPath<SimplePathWaypoint> path = WorldPath.buildPath(pathPositions, pathRotations);
+        IPath<SimplePathWaypoint> path = WorldPath.buildPath(paths);
         npcComponent.getPathManager().setTransientPath(path);
 
-        String message = String.format("Set Line Pathing from (%.0f, %.0f, %.0f) to (%.0f, %.0f, %.0f)", pathStartPosition.x, pathStartPosition.y, pathStartPosition.z, pathEndPosition.x, pathEndPosition.y, pathEndPosition.z);
+        String message = "Set Pathing";
         player.sendMessage(Message.raw(message));
         LOGGER.atInfo().log(message);
         return true;
