@@ -2,6 +2,7 @@ package com.clayfactoria;
 
 import com.clayfactoria.actions.builders.BuilderActionSetPath;
 import com.clayfactoria.components.BrushComponent;
+import com.clayfactoria.sensors.builders.BuilderSensorPathComplete;
 import com.clayfactoria.systems.TargetBlockEventSystem;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
@@ -15,6 +16,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
+import lombok.Getter;
 
 import javax.annotation.Nonnull;
 
@@ -29,7 +31,6 @@ public class  ClayFactoria extends JavaPlugin {
 
     @Override
     protected void setup() {
-
         LOGGER.atInfo().log("Registering Brush Component");
         brushComponentType = this.getEntityStoreRegistry().registerComponent(BrushComponent.class, BrushComponent::new);
         LOGGER.atInfo().log("Registering on Player Ready Event");
@@ -50,6 +51,9 @@ public class  ClayFactoria extends JavaPlugin {
 
         LOGGER.atInfo().log("Registering Set Path Action");
         NPCPlugin.get().registerCoreComponentType("SetPath", BuilderActionSetPath::new);
+
+        LOGGER.atInfo().log("Registering Sensor Path Complete");
+        NPCPlugin.get().registerCoreComponentType("PathComplete", BuilderSensorPathComplete::new);
     }
 
     private void onPlayerReady(@Nonnull PlayerReadyEvent event) {

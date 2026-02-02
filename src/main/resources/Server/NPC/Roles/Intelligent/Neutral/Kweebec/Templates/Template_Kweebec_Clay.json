@@ -439,13 +439,26 @@
           "Instructions": [
             {
               "Sensor": {
+                "Type": "PathComplete",
+                "IsComplete": true
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Idle"
+                }
+              ]
+            },
+            {
+              "Sensor": {
                 "Type": "Path",
                 "PathType": "TransientPath"
               },
               "BodyMotion": {
                 "Type": "Path",
                 "UseNodeViewDirection": true,
-                "PickRandomAngle": true
+                "PickRandomAngle": true,
+                "Shape": "LOOP"
               }
             }
           ]

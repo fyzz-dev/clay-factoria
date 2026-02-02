@@ -77,7 +77,8 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
         }
 
         Transform targetTransform = entityTransformComp.getTransform().clone();
-        targetTransform.setPosition(new Vector3d(targetBlockLoc.x, targetBlockLoc.y, targetBlockLoc.z));
+        Vector3d targetBlockLocOnTopOfBlock = new Vector3d(targetBlockLoc.x + 0.5, targetBlockLoc.y + 1, targetBlockLoc.z + 0.5);
+        targetTransform.setPosition(targetBlockLocOnTopOfBlock);
         targetTransform.setRotation(headRotation);
 
         BlockType blockType = damageBlockEvent.getBlockType();
@@ -86,7 +87,7 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
             player.sendMessage(Message.raw("Resetting path...").color(Color.YELLOW));
             ParticleUtil.spawnParticleEffect(
                     "Block_Break_Dust",
-                    new Vector3d(targetBlockLoc.x + 0.5, targetBlockLoc.y + 1, targetBlockLoc.z + 0.5),
+                    targetBlockLocOnTopOfBlock,
                     store
             );
             SoundUtil.playSoundEvent2d(
@@ -103,7 +104,7 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
 
         ParticleUtil.spawnParticleEffect(
                 "Block_Hit_Dirt",
-                new Vector3d(targetBlockLoc.x + 0.5, targetBlockLoc.y + 1, targetBlockLoc.z + 0.5),
+                targetBlockLocOnTopOfBlock,
                 store
         );
 
@@ -113,7 +114,7 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
                 commandBuffer
         );
 
-        String message = String.format("Set Path Block: (%d, %d, %d)", targetBlockLoc.x, targetBlockLoc.y, targetBlockLoc.z);
+        String message = String.format("Set Path Block: (%.0f, %.0f, %.0f)", targetBlockLocOnTopOfBlock.x, targetBlockLocOnTopOfBlock.y, targetBlockLocOnTopOfBlock.z);
         LOGGER.atInfo().log(message);
         player.sendMessage(Message.raw(message).color(Color.GREEN));
     }
