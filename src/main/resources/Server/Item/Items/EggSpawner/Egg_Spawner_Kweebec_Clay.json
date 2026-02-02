@@ -1,0 +1,67 @@
+{
+  "TranslationProperties": {
+    "Name": "server.items.Egg_Spawner_Kweebec_Clay.name"
+  },
+  "Recipe": {
+    "Input": [
+      {
+        "ResourceTypeId": "Clays",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 30
+      },
+      {
+        "ResourceTypeId": "Petals_Coloured",
+        "Quantity": 10
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Type": "Crafting",
+        "Categories": [
+          "Factoria_Automatons"
+        ],
+        "Id": "Clay_Factoria"
+      }
+    ]
+  },
+  "Quality": "Common",
+  "PlayerAnimationsId": "Item",
+  "Interactions": {
+    "Primary": {
+      "Interactions": [
+        {
+          "Type": "SpawnNPC",
+          "EntityId": "Kweebec_Clay",
+          "SpawnOffset": {
+            "X": 0,
+            "Y": 0.5,
+            "Z": 0
+          }
+        }
+      ]
+    }
+  },
+  "Model": "Items/Consumables/Food/Egg.blockymodel",
+  "Texture": "Items/Consumables/Food/Egg_White_Texture.png",
+  "Icon": "Icons/ItemsGenerated/Food_Egg_White.png",
+  "IconProperties": {
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Scale": 0.7,
+    "Translation": [
+      0,
+      -5.4
+    ]
+  },
+  "Tags": {
+    "Type": [
+      "Food"
+    ]
+  }
+}

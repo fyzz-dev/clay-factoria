@@ -15,6 +15,8 @@ import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.event.events.ecs.DamageBlockEvent;
+import com.hypixel.hytale.server.core.inventory.Inventory;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
@@ -29,36 +31,49 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, DamageBlockEvent> {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
-    private final ComponentType<EntityStore, BrushComponent> brushComponentType = BrushComponent.getComponentType();
-    @Nonnull
-    private final ComponentType<EntityStore, NPCEntity> npcEntityComponentType;
+  /** ID of the item to use as a wand for setting Automaton paths. */
+  private static final String WAND_ITEM_ID = "Ingredient_Stick";
 
-    public TargetBlockEventSystem(@Nonnull ComponentType<EntityStore, NPCEntity> npcEntityComponentType) {
-        super(DamageBlockEvent.class);
-        this.npcEntityComponentType = npcEntityComponentType;
+  private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+  private final ComponentType<EntityStore, BrushComponent> brushComponentType =
+      BrushComponent.getComponentType();
+  @Nonnull private final ComponentType<EntityStore, NPCEntity> npcEntityComponentType;
+
+  public TargetBlockEventSystem(
+      @Nonnull ComponentType<EntityStore, NPCEntity> npcEntityComponentType) {
+    super(DamageBlockEvent.class);
+    this.npcEntityComponentType = npcEntityComponentType;
+  }
+
+  @Override
+  public void handle(
+      int index,
+      @NonNull ArchetypeChunk<EntityStore> archetypeChunk,
+      @NonNull Store<EntityStore> store,
+      @NonNull CommandBuffer<EntityStore> commandBuffer,
+      @NonNull DamageBlockEvent damageBlockEvent) {
+
+    Ref<EntityStore> entityStoreRef = archetypeChunk.getReferenceTo(index);
+
+    Player player = store.getComponent(entityStoreRef, Player.getComponentType());
+    if (player == null) return;
+
+    Ref<EntityStore> playerRef = player.getReference();
+    if (playerRef == null) {
+      LOGGER.atSevere().log("Target Block Event System: playerRef was null");
+      return;
     }
 
-    @Override
-    public void handle(int index, @NonNull ArchetypeChunk<EntityStore> archetypeChunk, @NonNull Store<EntityStore> store,
-                       @NonNull CommandBuffer<EntityStore> commandBuffer, @NonNull DamageBlockEvent damageBlockEvent) {
+    // Check that the player has the wand equipped
+    if (!isWandEquipped(player)) {
+      return;
+    }
 
-        Ref<EntityStore> entityStoreRef = archetypeChunk.getReferenceTo(index);
-
-        Player player = store.getComponent(entityStoreRef, Player.getComponentType());
-        if (player == null) return;
-
-        Ref<EntityStore> playerRef = player.getReference();
-        if (playerRef == null) {
-            LOGGER.atSevere().log("Target Block Event System: playerRef was null");
-            return;
-        }
-
-        BrushComponent brushComponent = store.getComponent(playerRef, this.brushComponentType);
-        if (brushComponent == null) {
-            LOGGER.atSevere().log("Target Block Event System: Brush Component on the player was null");
-            return;
-        }
+    BrushComponent brushComponent = store.getComponent(playerRef, this.brushComponentType);
+    if (brushComponent == null) {
+      LOGGER.atSevere().log("Target Block Event System: Brush Component on the player was null");
+      return;
+    }
 
         HeadRotation headRotationComponent = store.getComponent(entityStoreRef, HeadRotation.getComponentType());
         if (headRotationComponent == null) {
@@ -66,8 +81,8 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
             return;
         }
 
-        Vector3i targetBlockLoc = damageBlockEvent.getTargetBlock();
-        Vector3f headRotation = headRotationComponent.getRotation();
+    Vector3i targetBlockLoc = damageBlockEvent.getTargetBlock();
+    Vector3f headRotation = headRotationComponent.getRotation();
 
         TransformComponent entityTransformComp = store.getComponent(entityStoreRef, TransformComponent.getComponentType());
         if (entityTransformComp == null) {
@@ -119,19 +134,39 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
                 store
         );
 
-        SoundUtil.playSoundEvent2d(
-                SoundEvent.getAssetMap().getIndex("SFX_Drop_Items_Clay"),
-                SoundCategory.SFX,
-                commandBuffer
-        );
+    SoundUtil.playSoundEvent2d(
+        SoundEvent.getAssetMap().getIndex("SFX_Drop_Items_Clay"), SoundCategory.SFX, commandBuffer);
 
         String message = String.format("Set Path Block: (%.0f, %.0f, %.0f)", targetBlockLocOnTopOfBlock.x, targetBlockLocOnTopOfBlock.y, targetBlockLocOnTopOfBlock.z);
         LOGGER.atInfo().log(message);
         player.sendMessage(Message.raw(message).color(Color.GREEN));
     }
 
-    @Override
-    public Query<EntityStore> getQuery() {
-        return PlayerRef.getComponentType();
+  @Override
+  public Query<EntityStore> getQuery() {
+    return PlayerRef.getComponentType();
+  }
+
+  /**
+   * Checks if the specified player is holding the wand item.
+   * @param player The player to check the condition in relation to.
+   * @return <code>true</code> if the player is holding the wand, <code>false</code> otherwise.
+   */
+  private boolean isWandEquipped(Player player) {
+    // Get player inventory.
+    Inventory inventory = player.getInventory();
+    if (inventory == null) {
+      return false;
     }
+
+    // Get item in active hotbar slot.
+    byte slot = inventory.getActiveHotbarSlot();
+    ItemStack itemStack = inventory.getHotbar().getItemStack(slot);
+    if (itemStack == null) {
+      return false;
+    }
+
+    // Check if held item is the wand.
+    return itemStack.getItemId().equals(WAND_ITEM_ID);
+  }
 }
