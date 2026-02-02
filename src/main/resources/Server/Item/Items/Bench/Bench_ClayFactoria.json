@@ -49,24 +49,9 @@
       "Type": "Crafting",
       "Categories": [
         {
-          "Id": "Workbench_Survival",
+          "Id": "Factoria_Automatons",
           "Icon": "Icons/CraftingCategories/Workbench/WeaponsCrude.png",
-          "Name": "server.benchCategories.workbench.survival"
-        },
-        {
-          "Id": "Workbench_Tools",
-          "Icon": "Icons/CraftingCategories/Workbench/Tools.png",
-          "Name": "server.benchCategories.workbench.tools"
-        },
-        {
-          "Id": "Workbench_Crafting",
-          "Icon": "Icons/CraftingCategories/Workbench/Processing.png",
-          "Name": "server.benchCategories.workbench.crafting"
-        },
-        {
-          "Id": "Workbench_Tinkering",
-          "Icon": "Icons/CraftingCategories/Workbench/Deco_Target.png",
-          "Name": "server.benchCategories.workbench.tinkering"
+          "Name": "server.benchCategories.workbench.automatons"
         }
       ],
       "LocalOpenSoundEventId": "SFX_Workbench_Open",
@@ -75,7 +60,7 @@
       "FailedSoundEventId": "SFX_Generic_Crafting_Failed",
       "BenchUpgradeSoundEventId": "SFX_Workbench_Upgrade_Start_Default",
       "BenchUpgradeCompletedSoundEventId": "SFX_Workbench_Upgrade_Complete_Default",
-      "Id": "Workbench",
+      "Id": "Clay_Factoria",
       "TierLevels": [
         {
           "CraftingTimeReductionModifier": 0.0,
