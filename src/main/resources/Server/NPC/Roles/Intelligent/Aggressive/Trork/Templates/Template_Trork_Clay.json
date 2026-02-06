@@ -4,206 +4,113 @@
   "StartState": "Idle",
   "Parameters": {
     "Appearance": {
-      "Value": "Trork_Hunter",
-      "Description": "Model to be used."
-    },
-    "ApplySeparation": {
-      "Value": true,
-      "Description": "When set to false, NPCs wont try to avoid each other or player, it can lead to them stacking together, but can help to avoid jerky-like movemenet in enclosed space."
+      "Value": "Trork_Clay",
+      "Description": "Model to be used"
     },
     "ViewRange": {
       "Value": 15,
-      "Description": "The range from which the target will be seen. If zero, sight will be disabled."
+      "Description": "View range"
     },
     "ViewSector": {
       "Value": 180,
-      "Description": "The view sector within which the target needs to be to be seen."
+      "Description": "View sector"
     },
     "HearingRange": {
-      "Value": 8,
-      "Description": "The range from which the target will be heard. If zero, hearing will be disabled."
-    },
-    "AbsoluteDetectionRange": {
-      "Value": 2,
-      "Description": "The range at which a target is guaranteed to be detected. If zero, abosulte detection will be disabled."
+      "Value": 10,
+      "Description": "Hearing range"
     },
     "AlertedRange": {
       "Value": 30,
       "Description": "A range within which the player can be seen/sensed when the NPC is alerted to their presence"
     },
+    "DropList": {
+      "Value": "Drop_Kweebec_Clay",
+      "Description": "Drop Items"
+    },
     "MaxSpeed": {
-      "Value": 10,
+      "Value": 5,
       "Description": "Maximum walking speed"
     },
-    "RunThreshold": {
-      "Value": 0.3,
-      "Description": "Relative speed at which run animation should be used. A value of 1 disables run animations"
+    "IdleMotionComponent": {
+      "Value": "Component_Instruction_Intelligent_Idle_Motion_Wander",
+      "Description": "The component that controls how the NPC moves during idle state"
     },
-    "DefaultHotbarSlot": {
-      "Value": 0,
-      "Description": "Default hotbar slot to equip (i.e. weapon)."
-    },
-    "Attack": {
-      "Value": "Root_NPC_Attack_Melee",
-      "Description": "The attack to use."
-    },
-    "AttackDistance": {
-      "Value": 2,
-      "Description": "The distance at which an NPC will execute attacks"
-    },
-    "DesiredAttackDistanceRange": {
-      "Value": [ 1.5, 1.5 ],
-      "Description": "The distance within which the NPC wants to be from its target while attacking. The max value should be lower than AttackDistance."
-    },
-    "AttackPauseRange": {
-      "Value": [ 1.5, 2 ],
-      "Description": "The range for absolute minimum time before an NPC can execute a second attack (or block)."
-    },
-    "CombatRelativeTurnSpeed": {
-      "Value": 1.5,
-      "Description": "Modifier that decides turn speed difference in combat."
-    },
-    "CombatBehaviorDistance": {
-      "Value": 5,
-      "Description": "The distance within which to switch from smart chasing to combat-oriented movement behavior."
-    },
-    "CombatDirectWeight": {
-      "Value": 10,
-      "Description": "Weight for the direct combat movement behavior (i.e. just going straight at the target, maintaining a close distance and attacking. Set to 0 to disable."
-    },
-    "CombatAlwaysMovingWeight": {
-      "Value": 0,
-      "Description": "Weight for the combat movement behavior where the NPC will always charge at you while attacking. Set to 0 to disable."
-    },
-    "CombatStrafeWeight": {
-      "Value": 10,
-      "Description": "Weight for the combat strafing movement behavior. Set to 0 to disable."
-    },
-    "CombatStrafingDurationRange": {
-      "Value": [ 1, 1 ],
-      "Description": "How long to strafe for when in the combat strafing movement behavior. Only applies if CombatStrafeWeight is greater than 0."
-    },
-    "CombatStrafingFrequencyRange": {
-      "Value": [ 2, 2 ],
-      "Description": "How frequently to strafe when in the combat strafing movement behavior. Only applies if CombatStrafeWeight is greater than 0."
-    },
-    "CombatAttackPreDelay": {
-      "Value": [ 0.2, 0.2 ],
-      "Description": "The time delay range before the NPC performs an attack, provided it's in attack range."
-    },
-    "CombatAttackPostDelay": {
-      "Value": [ 0.2, 0.2 ],
-      "Description": "The time delay range after the NPC performs an attack, provided it's in attack range."
-    },
-    "CombatBackOffAfterAttack": {
-      "Value": true,
-      "Description": "Whether to back off after performing an attack."
-    },
-    "CombatBackOffDistanceRange": {
-      "Value": [ 4, 4 ],
-      "Description": "How far to back off after performing an attack. Max should be lower than the CombatBehaviorDistance."
-    },
-    "CombatBackOffDurationRange": {
-      "Value": [ 2, 3 ],
-      "Description": "How long to back off for after performing an attack."
-    },
-    "BlockAbility": {
-      "Value": "Shield_Block",
-      "Description": "The interaction to use for blocking when backing away. Set to empty to disable blocking."
-    },
-    "BlockProbability": {
-      "Value": 50,
-      "Description": "The probability this NPC will block when backing away if a BlockAbility is set."
-    },
-    "CombatFleeIfTooCloseDistance": {
-      "Value": 0,
-      "Description": "In combat, if the target gets within this distance for a certain amount of time, the NPC will attempt to flee to a safe distance instead of simply backing away. Set to 0 to disable behavior."
-    },
-    "AdditionalCombatBehaviorMacroElement": {
-      "Value": "Component_Instruction_Null",
-      "Description": "An optional macro element for supplying more bespoke combat movement behavior. Weight for the behavior must be internally defined in the macro element."
-    },
-    "TargetSwitchTimer": {
-      "Value": [ 5, 5 ],
-      "Description": "Minimum time the NPC will be locked onto a single target before switching"
-    },
-    "TargetRange": {
-      "Value": 4,
-      "Description": "The distance the target needs to be within to maintain priority over other targets while in combat"
-    },
-    "ChaseRelativeSpeed": {
-      "Value": 0.67,
-      "Description": "Relative chasing speed when pursuing a target."
-    },
-    "CombatMovingRelativeSpeed": {
-      "Value": 0.6,
-      "Description": "Relative speed to use during combat specific movement (e.g. to achieve slower strafing)."
-    },
-    "CombatBackwardsRelativeSpeed": {
-      "Value": 0.3,
-      "Description": "Relative speed to use during combat when backing away from target."
-    },
-    "FlockArray": {
-      "Value": [ ],
-      "TypeHint": "String",
-      "Description": "Array containing NPCs for this flock type."
-    },
-    "DisableDamageGroups": {
-      "Value": [ "Self", "Player" ],
-      "Description": "Groups not to take damage from."
+    "AttitudeGroup": {
+      "Value": "Kweebec",
+      "Description": "This NPCs attitude group"
     },
     "MaxHealth": {
       "Value": 100,
-      "Description": "Max health for the NPC."
+      "Description": "Max health for the NPC"
     },
-    "BreathesInWater": {
+    "IsMemory": {
       "Value": false,
-      "Description": "Whether this NPC can breathe underwater."
+      "Description": "Defines if the NPC is a memory"
+    },
+    "MemoriesCategory": {
+      "Value": "Other",
+      "Description": "Defines the category of the memory"
+    },
+    "MemoriesNameOverride": {
+      "Value": "",
+      "Description": "Overrides the memory name if set"
     },
     "NameTranslationKey": {
       "Value": "server.npcRoles.Template.name",
       "Description": "Translation key for NPC name display"
-    },
-    "DespawnTimer": {
-      "Value": 300,
-      "Description": "How long the NPC will remain before it despawns in seconds."
     }
   },
-  "IsMemory": false,
-  "BreathesInWater": { "Compute": "BreathesInWater" },
+  "IsMemory": { "Compute": "IsMemory" },
+  "MemoriesCategory": { "Compute": "MemoriesCategory" },
+  "MemoriesNameOverride": { "Compute": "MemoriesNameOverride" },
   "Appearance": { "Compute": "Appearance" },
-  "DisableDamageGroups": { "Compute": "DisableDamageGroups" },
-  "HotbarSize": 3,
-  "OffHandSlots": 2,
+  "DropList": { "Compute": "DropList" },
+  "DisableDamageGroups": [ "Self" ],
   "DefaultNPCAttitude": "Ignore",
-  "DefaultPlayerAttitude": "Ignore",
-  "FlockSpawnTypes": { "Compute": "FlockArray" },
-  "FlockAllowedNPC": { "Compute": "FlockArray" },
-  "ApplySeparation": { "Compute": "ApplySeparation" },
-  "SeparationDistance": 2,
-  "SeparationWeight": 1,
-  "SeparationDistanceTarget": 0.5,
-  "SeparationNearRadiusTarget": 2,
-  "SeparationFarRadiusTarget": 7,
-  "BusyStates": [ "Armed", "Combat" ],
+  "DefaultPlayerAttitude": "Neutral",
+  "AttitudeGroup": { "Compute": "AttitudeGroup" },
   "KnockbackScale": 0.5,
   "MotionControllerList": [
     {
       "Type": "Walk",
       "MaxWalkSpeed": { "Compute": "MaxSpeed" },
       "Gravity": 10,
-      "RunThreshold": { "Compute": "RunThreshold" },
+      "RunThreshold": 0.3,
       "MaxFallSpeed": 15,
       "MaxRotationSpeed": 360,
       "Acceleration": 10
     }
   ],
+  "MaxHealth": { "Compute": "MaxHealth" },
+  "CombatConfig": {
+    "EntityEffect": "Immunity_Environmental"
+  },
   "StateTransitions": [
+    {
+      "$Comment": "Always clear animation when moving from Alerted or Flee state.",
+      "States": [
+        {
+          "To": [ ],
+          "From": [ "Alerted", "Flee" ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "AnimationBlock",
+          "SetTo": false
+        }
+      ]
+    },
     {
       "$Comment": "Always clear target and reset instructions when going back to idle.",
       "States": [
         {
-          "To": [ "Armed" ],
+          "To": [ "Idle" ],
           "From": [ ]
         }
       ],
@@ -213,89 +120,61 @@
         },
         {
           "Type": "ResetInstructions"
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
         }
       ]
     },
     {
-      "$Comment": "Always equip main weapon when going back to Idle or switching to combat.",
+      "$Comment": "Clear idle anims",
       "States": [
         {
-          "To": [ "Armed", "Combat" ],
-          "From": [ ]
+          "To": [ ],
+          "From": [ "Idle" ]
         }
       ],
       "Actions": [
         {
-          "Type": "Inventory",
-          "Operation": "EquipHotbar",
-          "UseTarget": false,
-          "Slot": { "Compute": "DefaultHotbarSlot" }
+          "Type": "PlayAnimation",
+          "Slot": "Status"
         }
       ]
     }
   ],
-  "MaxHealth": { "Compute": "MaxHealth" },
-  "InteractionVars": {
-    "Melee_Damage": {
-      "Interactions": [
-        {
-          "$Comment": "When NPC overrides the InteractionVars, this info is not applicable anymore",
-          "Parent": "NPC_Attack_Melee_Damage",
-          "DamageCalculator": {
-            "Type": "Absolute",
-            "BaseDamage": {
-              "Physical": 10
-            },
-            "RandomPercentageModifier": 0.1
-          }
-        }
-      ]
-    }
-  },
   "Instructions": [
     {
       "Continue": true,
+      "$Comment": "This is separate so I can run it all the time regardless of the rest of the script",
       "Instructions": [
         {
-          "$Comment": "Handle flock logic and following players.",
           "Continue": true,
           "Sensor": {
-            "Type": "Self",
-            "Filters": [
+            "Type": "And",
+            "Sensors": [
               {
-                "Type": "Flock",
-                "FlockStatus": "NotMember"
+                "Type": "FlockLeader"
+              },
+              {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Flock",
+                    "FlockStatus": "Follower"
+                  }
+                ]
               }
             ]
           },
-          "Instructions": [
-            {
-              "Sensor": {
-                "Type": "Player",
-                "Range": 20
-              },
-              "Actions": [
-                {
-                  "Type": "JoinFlock",
-                  "ForceJoin": true
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "$Comment": "When the flock leader inflicts damage, enter combat state",
-          "Sensor": {
-            "Type": "InflictedDamage",
-            "Target": "FlockLeader"
-          },
           "Actions": [
             {
-              "Type": "FlockTarget"
-            },
-            {
-              "Type": "State",
-              "State": "Combat"
+              "Type": "Timeout",
+              "Delay": [ 0.5, 2 ],
+              "Action": {
+                "Type": "SetLeashPosition",
+                "ToTarget": true
+              }
             }
           ]
         }
@@ -310,6 +189,50 @@
           },
           "Instructions": [
             {
+              "Reference": "Component_Instruction_Clear_Status_Animation"
+            },
+            {
+              "Reference": "Component_Instruction_Damage_Check",
+              "Modify": {
+                "_ExportStates": [ "Flee", "Panic" ],
+                "AlertedRange": { "Compute": "AlertedRange" }
+              }
+            },
+            {
+              "Sensor": {
+                "$Comment": "Switch to Alerted if Hostile",
+                "Type": "Or",
+                "Sensors": [
+                  {
+                    "Reference": "Component_Sensor_Sight_By_Attitude",
+                    "Modify": {
+                      "ViewRange": { "Compute": "AlertedRange" },
+                      "ViewSector": { "Compute": "ViewSector" },
+                      "Attitudes": [ "Hostile" ]
+                    }
+                  },
+                  {
+                    "Reference": "Component_Sensor_Sound_By_Attitude",
+                    "Modify": {
+                      "HearingRange": { "Compute": "HearingRange" },
+                      "Attitudes": [ "Hostile" ]
+                    }
+                  }
+                ]
+              },
+              "ActionsAtomic": true,
+              "Actions": [
+                {
+                  "Type": "Timeout",
+                  "Delay": [ 0, 0.2 ]
+                },
+                {
+                  "Type": "State",
+                  "State": "Alerted"
+                }
+              ]
+            },
+            {
               "Sensor": {
                 "Type": "Player",
                 "Range": 10,
@@ -323,62 +246,8 @@
               "Actions": [
                 {
                   "Type": "State",
-                  "State": ".Alerted"
+                  "State": "Alerted"
                 }
-              ]
-            },
-            {
-              "Sensor": {
-                "Type": "State",
-                "$Comment": "Play Alerted Particle Effect. Look at player. Await Interaction. Timeout after 15, seconds",
-                "State": ".Alerted"
-              },
-              "Instructions": [
-                {
-                  "$Comment": "Animations",
-                  "Continue": true,
-                  "Sensor": {
-                    "Type": "Any",
-                    "Once": true
-                  },
-                  "Actions": [
-                    {
-                      "Type": "PlayAnimation",
-                      "Slot": "Status",
-                      "Animation": "Alerted"
-                    },
-                    {
-                      "Type": "SpawnParticles",
-                      "Offset": [ 0, 1, 0 ],
-                      "ParticleSystem": "Alerted"
-                    }
-                  ]
-                },
-                {
-                  "$Comment": "Return to idle when item in hand is not stick",
-                  "Sensor": {
-                    "Type": "Not",
-                    "Sensor": {
-                      "Type": "Player",
-                      "Range": 10,
-                      "Filters": [
-                        {
-                          "Type": "ItemInHand",
-                          "Items": [
-                            "Ingredient_Stick"
-                          ]
-                        }
-                      ]
-                    }
-                  },
-                  "Actions": [
-                    {
-                      "Type": "State",
-                      "State": ".Default"
-                    }
-                  ]
-                }
-
               ]
             }
           ]
@@ -386,342 +255,220 @@
         {
           "Sensor": {
             "Type": "State",
-            "State": "Armed"
+            "$Comment": "Play Alerted Particle Effect. Look at player. Await Interaction. Timeout after 15, seconds",
+            "State": "Alerted"
           },
           "Instructions": [
             {
-              "$Comment": "Switch to combat state if any flock member engages a target.",
-              "Enabled": { "Compute": "!isEmptyStringArray(FlockArray)" },
-              "Sensor": {
-                "Type": "Beacon",
-                "Message": "Flock_Attack",
-                "TargetSlot": "LockedTarget",
-                "Range": { "Compute": "HearingRange * 2" }
-              },
-              "Actions": [
-                {
-                  "Type": "State",
-                  "State": "Combat"
-                }
-              ]
-            },
-            {
               "Reference": "Component_Instruction_Damage_Check",
               "Modify": {
-                "_ExportStates": [ "Combat", "Armed" ],
+                "_ExportStates": [ "Flee", "Panic" ],
                 "AlertedRange": { "Compute": "AlertedRange" }
               }
             },
             {
-              "$Comment": "Follow the leader.",
-              "Enabled": { "Compute": "!isEmptyStringArray(FlockArray)" },
+              "$Comment": "Animations",
+              "Continue": true,
               "Sensor": {
-                "Type": "And",
-                "Sensors": [
-                  {
-                    "Type": "FlockLeader"
-                  },
-                  {
-                    "Type": "Self",
-                    "Filters": [
-                      {
-                        "Type": "Flock",
-                        "FlockStatus": "Follower"
-                      }
-                    ]
-                  }
-                ]
+                "Type": "Any",
+                "Once": true
               },
-              "HeadMotion": {
-                "Type": "Watch"
+              "Actions": [
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status",
+                  "Animation": "Alerted"
+                },
+                {
+                  "Type": "SpawnParticles",
+                  "Offset": [ 0, 1, 0 ],
+                  "ParticleSystem": "Alerted"
+                }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "Not",
+                "Sensor": {
+                  "$Comment": "Return to idle when item in hand is not brush",
+                  "Type": "Player",
+                  "Range": 10,
+                  "Filters": [
+                    {
+                      "Type": "ItemInHand",
+                      "Items": [
+                        "Ingredient_Stick"
+                      ]
+                    }
+                  ]
+                }
               },
-              "BodyMotion": {
-                "Type": "Seek",
-                "SlowDownDistance": 7,
-                "StopDistance": 4
-              }
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Idle"
+                }
+              ]
             }
           ]
         },
         {
           "Sensor": {
             "Type": "State",
-            "State": "Combat"
+            "State": "Flee"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Instruction_Clear_Status_Animation"
+            },
+            {
+              "Reference": "Component_Instruction_Damage_Check",
+              "Modify": {
+                "_ExportStates": [ "Panic", "Panic" ],
+                "AlertedRange": { "Compute": "AlertedRange" }
+              }
+            },
+            {
+              "Sensor": {
+                "Type": "Or",
+                "Sensors": [
+                  {
+                    "Reference": "Component_Sensor_Sight_By_Attitude",
+                    "Modify": {
+                      "ViewRange": { "Compute": "ViewRange + 5" },
+                      "ViewSector": { "Compute": "ViewSector" },
+                      "Attitudes": [ "Hostile", "Neutral" ]
+                    }
+                  },
+                  {
+                    "Reference": "Component_Sensor_Sound_By_Attitude",
+                    "Modify": {
+                      "HearingRange": { "Compute": "HearingRange" },
+                      "ThroughWalls": false,
+                      "Attitudes": [ "Hostile", "Neutral" ]
+                    }
+                  }
+                ]
+              },
+              "BodyMotion": {
+                "Type": "Flee",
+                "SlowDownDistance": { "Compute": "ViewRange + 2" },
+                "StopDistance": { "Compute": "ViewRange + 5" },
+                "RelativeSpeed": 0.5
+              }
+            },
+            {
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Idle"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Panic"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Kweebec_Instruction_Panic",
+              "Modify": {
+                "_ExportStates": [ "Alerted", "Flee", "Panic", "Idle" ],
+                "ViewRange": { "Compute": "ViewRange" },
+                "ViewSector": { "Compute": "ViewSector" },
+                "HearingRange": { "Compute": "HearingRange" },
+                "AlertedRange": { "Compute": "AlertedRange" }
+              }
+            }
+          ]
+        },
+        {
+          "$Comment": "Interaction state - look at player while Interacting. Timeout at 15 seconds to go back to Idle",
+          "Sensor": {
+            "Type": "State",
+            "State": "$Interaction"
+          },
+          "Instructions": [
+            {
+              "$Comment": "Return to idle when item in hand is not brush",
+              "Sensor": {
+                "Type": "Not",
+                "Sensor": {
+                  "Type": "Player",
+                  "Range": { "Compute": "ViewRange" },
+                  "Filters": [
+                    {
+                      "Type": "ItemInHand",
+                      "Items": [
+                        "Ingredient_Stick"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Idle"
+                }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "Path",
+                "PathType": "TransientPath"
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Path"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$Comment": "Pathing state - Path to a single point or line path",
+          "Sensor": {
+            "Type": "State",
+            "State": "Path"
           },
           "Instructions": [
             {
               "Sensor": {
-                "Type": "State",
-                "State": ".Chase"
-              },
-              "Instructions": [
-                {
-                  "Sensor": {
-                    "Type": "Target",
-                    "Range": { "Compute": "AttackDistance" },
-                    "Filters": [
-                      {
-                        "Type": "LineOfSight"
-                      }
-                    ]
-                  },
-                  "Actions": [
-                    {
-                      "Type": "State",
-                      "State": ".Default"
-                    }
-                  ]
-                },
-                {
-                  "Reference": "Component_Instruction_Intelligent_Chase",
-                  "Modify": {
-                    "_ExportStates": [ "Armed", "Armed", "Armed" ],
-                    "ViewRange": { "Compute": "AlertedRange" },
-                    "HearingRange": { "Compute": "HearingRange" },
-                    "RelativeSpeed": { "Compute": "ChaseRelativeSpeed" }
-                  }
-                }
-              ]
-            },
-            {
-              "Reference": "Component_Instruction_Combat_Retreat",
-              "Modify": {
-                "CombatFleeIfTooCloseDistance": { "Compute": "CombatFleeIfTooCloseDistance" },
-                "AttackDistance": { "Compute": "AttackDistance" }
-              }
-            },
-            {
-              "Reference": "Component_Instruction_Combat_Target_Swap",
-              "Modify": {
-                "TargetSwitchTimer": { "Compute": "TargetSwitchTimer" },
-                "TargetRange": { "Compute": "TargetRange" }
-              }
-            },
-            {
-              "Continue": true,
-              "Sensor": {
-                "Type": "Target",
-                "Range": { "Compute": "AttackDistance" },
-                "Filters": [
-                  {
-                    "Type": "LineOfSight"
-                  }
-                ]
-              },
-              "ActionsBlocking": true,
-              "Actions": [
-                {
-                  "$Comment": "TODO: Brief delay before attack so NPC can stop moving. Do we  need it?",
-                  "Type": "Timeout",
-                  "Delay": { "Compute": "CombatAttackPreDelay" }
-                },
-                {
-                  "Type": "Attack",
-                  "Attack": { "Compute": "Attack" },
-                  "AttackPauseRange": { "Compute": "AttackPauseRange" }
-                },
-                {
-                  "$Comment": "Brief delay to prevent the NPC potentially strafing/backing away and missing the shot.",
-                  "Type": "Timeout",
-                  "Delay": { "Compute": "CombatAttackPostDelay" }
-                },
-                {
-                  "Type": "TimerStart",
-                  "Name": "Combat_Back_Off",
-                  "StartValueRange": { "Compute": "CombatBackOffDurationRange" },
-                  "RestartValueRange": { "Compute": "CombatBackOffDurationRange" }
-                },
-                {
-                  "Type": "TimerRestart",
-                  "Name": "Combat_Back_Off"
-                }
-              ],
-              "HeadMotion": {
-                "Type": "Aim",
-                "RelativeTurnSpeed": { "Compute": "CombatRelativeTurnSpeed" }
-              }
-            },
-            {
-              "Continue": true,
-              "Sensor": {
                 "Type": "And",
                 "Sensors": [
                   {
-                    "Type": "Not",
-                    "Sensor": {
-                      "Type": "Target",
-                      "Range": { "Compute": "AttackDistance" }
-                    }
+                    "Type": "PathComplete",
+                    "IsComplete": true
                   },
                   {
-                    "Type": "Or",
-                    "Sensors": [
-                      {
-                        "Type": "Nav",
-                        "NavStates": [ "Defer" ],
-                        "ThrottleDuration": 3
-                      },
-                      {
-                        "Type": "Target",
-                        "Range": { "Compute": "CombatBehaviorDistance" },
-                        "Filters": [
-                          {
-                            "Type": "Not",
-                            "Filter": {
-                              "Type": "HeightDifference",
-                              "HeightDifference": [ -2, 2 ]
-                            }
-                          }
-                        ]
-                      }
-                    ]
+                    "Type": "PathType",
+                    "PathType": "ONCE"
                   }
                 ]
               },
-              "ActionsBlocking": true,
               "Actions": [
                 {
-                  "Type": "Timeout",
-                  "Delay": [ 5, 5 ]
-                },
-                {
                   "Type": "State",
-                  "State": "Armed"
+                  "State": "Idle"
                 }
               ]
             },
             {
-              "Reference": "Component_Instruction_Combat_Back_Off",
-              "Modify": {
-                "TimerName": "Combat_Back_Off",
-                "CombatBackOffAfterAttack": { "Compute": "CombatBackOffAfterAttack" },
-                "CombatBackOffDistanceRange": { "Compute": "CombatBackOffDistanceRange" },
-                "CombatBackOffDurationRange": { "Compute": "CombatBackOffDurationRange" },
-                "BlockAbility": { "Compute": "BlockAbility" },
-                "BlockProbability": { "Compute": "BlockProbability" },
-                "CombatStrafingDurationRange": { "Compute": "CombatStrafingDurationRange" },
-                "CombatStrafingFrequencyRange": { "Compute": "CombatStrafingFrequencyRange" },
-                "CombatBehaviorDistance": { "Compute": "CombatBehaviorDistance" },
-                "CombatMovingRelativeSpeed": { "Compute": "CombatMovingRelativeSpeed" }
+              "Sensor": {
+                "Type": "Path",
+                "PathType": "TransientPath"
+              },
+              "BodyMotion": {
+                "Type": "Path",
+                "UseNodeViewDirection": true,
+                "PickRandomAngle": true,
+                "Shape": "LOOP"
               }
-            },
-            {
-              "Sensor": {
-                "Type": "And",
-                "Sensors": [
-                  {
-                    "Type": "Target",
-                    "Range": { "Compute": "CombatBehaviorDistance" }
-                  },
-                  {
-                    "Type": "Eval",
-                    "Expression": "blocked"
-                  },
-                  {
-                    "Type": "Not",
-                    "Sensor": {
-                      "Type": "IsBackingAway"
-                    }
-                  }
-                ]
-              },
-              "ActionsBlocking": true,
-              "Actions": [
-                {
-                  "Type": "Timeout",
-                  "Delay": [ 0.5, 0.5 ]
-                },
-                {
-                  "Type": "State",
-                  "State": ".Chase"
-                }
-              ]
-            },
-            {
-              "$Comment": "Execute combat-oriented movement.",
-              "Type": "Random",
-              "ExecuteFor": [ 5, 5 ],
-              "Sensor": {
-                "Type": "Target",
-                "Range": { "Compute": "CombatBehaviorDistance" }
-              },
-              "Instructions": [
-                {
-                  "$Comment": "Strafe around the target while fighting. - this strafes to a very short distance, changing it to maintain > attack distance will lead to npc never attacking",
-                  "Enabled": { "Compute": "CombatStrafeWeight > 0" },
-                  "Weight": { "Compute": "CombatStrafeWeight" },
-                  "Sensor": {
-                    "Type": "Target",
-                    "Range": { "Compute": "CombatBehaviorDistance" }
-                  },
-                  "HeadMotion": {
-                    "Type": "Watch"
-                  },
-                  "BodyMotion": {
-                    "Type": "MaintainDistance",
-                    "DesiredDistanceRange": { "Compute": "DesiredAttackDistanceRange" },
-                    "StrafingDurationRange": { "Compute": "CombatStrafingDurationRange" },
-                    "StrafingFrequencyRange": { "Compute": "CombatStrafingFrequencyRange" },
-                    "RelativeForwardsSpeed": { "Compute": "CombatMovingRelativeSpeed" },
-                    "RelativeBackwardsSpeed": { "Compute": "CombatBackwardsRelativeSpeed" }
-                  }
-                },
-                {
-                  "$Comment": "Attack the target without strafing.",
-                  "Enabled": { "Compute": "CombatDirectWeight > 0" },
-                  "Weight": { "Compute": "CombatDirectWeight" },
-                  "Sensor": {
-                    "Type": "Target",
-                    "Range": { "Compute": "CombatBehaviorDistance" }
-                  },
-                  "BodyMotion": {
-                    "Type": "MaintainDistance",
-                    "DesiredDistanceRange": { "Compute": "DesiredAttackDistanceRange" },
-                    "StrafingDurationRange": [ 0, 0 ],
-                    "RelativeForwardsSpeed": { "Compute": "ChaseRelativeSpeed" },
-                    "RelativeBackwardsSpeed": { "Compute": "CombatBackwardsRelativeSpeed" }
-                  }
-                },
-                {
-                  "$Comment": "Always charge at the target while attacking.",
-                  "Enabled": { "Compute": "CombatAlwaysMovingWeight > 0" },
-                  "Weight": { "Compute": "CombatAlwaysMovingWeight" },
-                  "Sensor": {
-                    "Type": "Target",
-                    "Range": { "Compute": "CombatBehaviorDistance" }
-                  },
-                  "HeadMotion": {
-                    "Type": "Aim",
-                    "RelativeTurnSpeed": { "Compute": "CombatRelativeTurnSpeed" }
-                  },
-                  "BodyMotion": {
-                    "Type": "Seek",
-                    "RelativeSpeed": { "Compute": "ChaseRelativeSpeed" },
-                    "StopDistance": 2,
-                    "SlowDownDistance": { "Compute": "AttackDistance" }
-                  }
-                },
-                {
-                  "Reference": { "Compute": "AdditionalCombatBehaviorMacroElement" },
-                  "Interfaces": [ "Hytale.Instruction.Null", "Hytale.Instruction.CombatBehavior" ],
-                  "Modify": {
-                    "_InterfaceParameters": {
-                      "Hytale.Instruction.CombatBehavior": {
-                        "CombatBehaviorDistance": { "Compute": "CombatBehaviorDistance" },
-                        "ChaseRelativeSpeed": { "Compute": "ChaseRelativeSpeed" }
-                      }
-                    }
-                  }
-                }
-              ]
-            },
-            {
-              "Actions": [
-                {
-                  "Type": "State",
-                  "State": ".Chase"
-                }
-              ]
             }
           ]
         }
@@ -734,22 +481,50 @@
         "Instructions": [
           {
             "Sensor": {
-              "$Comment": "Exit immediately if no stick in hand",
+              "$Comment": "Exit first if not interactable with Brush in Hand. Checks this first before everything first to avoid extra work",
               "Type": "Not",
-                "Sensor": {
-                  "Type": "Player",
-                  "Range": {
-                    "Compute": "ViewRange"
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "$Comment": "If Player Does NOT have Brush in Hand then Disable Interaction. If in Path State, do NOT disable Interactable",
+                    "Type": "Or",
+                    "Sensors":  [
+                      {
+                        "Type": "Player",
+                        "Range": { "Compute": "ViewRange" },
+                        "Filters": [
+                          {
+                            "Type": "ItemInHand",
+                            "$Comment": "TODO: Replace with Brush Item",
+                            "Items": ["Ingredient_Stick"]
+                          }
+                        ]
+                      },
+                      {
+                        "Type": "State",
+                        "State": "Path"
+                      }
+                    ]
                   },
-                  "Filters": [
-                    {
-                      "Type": "ItemInHand",
-                      "Items": [
-                        "Ingredient_Stick"
-                      ]
+                  {
+                    "Type": "Not",
+                    "Sensor": {
+                      "Type": "State",
+                      "State": "Panic"
                     }
-                  ]
-                }
+                  },
+                  {
+                    "Type": "CanInteract",
+                    "ViewSector": 360,
+                    "Attitudes": [
+                      "Neutral",
+                      "Friendly",
+                      "Revered"
+                    ]
+                  }
+                ]
+              }
             },
             "Actions": [
               {
@@ -761,13 +536,25 @@
           {
             "Continue": true,
             "Sensor": {
-              "$Comment": "Set Interactable to true when Item in Hand is stick",
-              "Type": "Player",
-              "Range": { "Compute": "ViewRange" },
-              "Filters": [
+              "$Comment": "Switch to Alerted if Hostile",
+              "Type": "Or",
+              "Sensors": [
                 {
-                  "Type": "ItemInHand",
-                  "Items": ["Ingredient_Stick"]
+                  "$Comment": "Set Interactable to true when Item in Hand is Brush",
+                  "Type": "Player",
+                  "Range": { "Compute": "ViewRange" },
+                  "Filters": [
+                    {
+                      "Type": "ItemInHand",
+                      "$Comment": "TODO: Replace with Brush Item",
+                      "Items": ["Ingredient_Stick"]
+                    }
+                  ]
+                },
+                {
+                  "$Comment": "Set Interacble to true when in Path state",
+                  "Type": "State",
+                  "State": "Path"
                 }
               ]
             },
@@ -781,6 +568,7 @@
           },
           {
             "Sensor": {
+              "$Comment": "TODO: When Interacting, Play Particle Effects, Change Attachment to match State",
               "Type": "And",
               "Sensors": [
                 {
@@ -789,22 +577,67 @@
                   "Filters": [
                     {
                       "Type": "ItemInHand",
+                      "$Comment": "TODO: Replace with Brush Item",
                       "Items": ["Ingredient_Stick"]
                     }
                   ]
                 },
                 {
                   "Type": "HasInteracted"
+                },
+                {
+                  "Type": "Not",
+                  "Sensor": {
+                    "Type": "State",
+                    "State": "Path"
+                  }
                 }
               ]
             },
             "Actions": [
               {
-                "Type": "State",
-                "State": "Armed"
+                "Type": "LockOnInteractionTarget"
               },
               {
-
+                "Type": "State",
+                "State": "$Interaction"
+              },
+              {
+                "$Comment": "Temporarily disable interactable",
+                "Type": "SetInteractable",
+                "Interactable": false
+              },
+              {
+                "Type": "SetPath"
+              }
+            ]
+          },
+          {
+            "Sensor": {
+              "$Comment": "When interacting in the Path state, switch to Idle",
+              "Type": "And",
+              "Sensors": [
+                {
+                  "Type": "HasInteracted"
+                },
+                {
+                  "Type": "State",
+                  "State": "Path"
+                }
+              ]
+            },
+            "Actions": [
+              {
+                "Type": "ReleaseTarget"
+              },
+              {
+                "Type": "State",
+                "State": "Idle"
+              },
+              {
+                "$Comment": "Temporarily disable interactable",
+                "Type": "SetInteractable",
+                "Interactable": false
               }
             ]
           }
