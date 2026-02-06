@@ -183,6 +183,32 @@
     {
       "Instructions": [
         {
+          "$Comment": "Pull item from adjacent chest if stood on a marker block",
+          "Sensor": {
+            "Type": "BlockUnder",
+            "Block": "Wood_Village_Wall_Green_Full"
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "BlockMatched"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "BlockMatched"
+          },
+          "Actions": [
+            {
+              "Type": "PlayAnimation",
+              "Slot": "Status",
+              "Animation": "Alerted"
+            }
+          ]
+        },
+        {
           "Sensor": {
             "Type": "State",
             "State": "Idle"
@@ -254,8 +280,8 @@
         },
         {
           "Sensor": {
-            "Type": "State",
             "$Comment": "Play Alerted Particle Effect. Look at player. Await Interaction. Timeout after 15, seconds",
+            "Type": "State",
             "State": "Alerted"
           },
           "Instructions": [

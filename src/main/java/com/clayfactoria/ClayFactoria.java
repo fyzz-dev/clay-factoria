@@ -4,6 +4,7 @@ import com.clayfactoria.actions.builders.BuilderActionSetPath;
 import com.clayfactoria.actions.builders.BuilderPutItemInHand;
 import com.clayfactoria.components.BrushComponent;
 import com.clayfactoria.components.OwnerComponent;
+import com.clayfactoria.sensors.builders.BuilderSensorBlockUnder;
 import com.clayfactoria.sensors.builders.BuilderSensorPathComplete;
 import com.clayfactoria.sensors.builders.BuilderSensorPathType;
 import com.clayfactoria.systems.TargetBlockEventSystem;
@@ -66,6 +67,9 @@ public class ClayFactoria extends JavaPlugin {
 
     LOGGER.atInfo().log("Registering Sensor Path Type");
     NPCPlugin.get().registerCoreComponentType("PathType", BuilderSensorPathType::new);
+
+    LOGGER.atInfo().log("Registering Sensor Block Under");
+    NPCPlugin.get().registerCoreComponentType("BlockUnder", BuilderSensorBlockUnder::new);
 
     LOGGER.atInfo().log("Registering Put Item In Hand Action");
     NPCPlugin.get().registerCoreComponentType("PutItemInHand", BuilderPutItemInHand::new);
