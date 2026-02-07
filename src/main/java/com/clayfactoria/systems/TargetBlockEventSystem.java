@@ -53,27 +53,27 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
       @NonNull CommandBuffer<EntityStore> commandBuffer,
       @NonNull DamageBlockEvent damageBlockEvent) {
 
-    Ref<EntityStore> entityStoreRef = archetypeChunk.getReferenceTo(index);
+        Ref<EntityStore> entityStoreRef = archetypeChunk.getReferenceTo(index);
 
-    Player player = store.getComponent(entityStoreRef, Player.getComponentType());
-    if (player == null) return;
+        Player player = store.getComponent(entityStoreRef, Player.getComponentType());
+        if (player == null) return;
 
-    Ref<EntityStore> playerRef = player.getReference();
-    if (playerRef == null) {
-      LOGGER.atSevere().log("Target Block Event System: playerRef was null");
-      return;
-    }
+        Ref<EntityStore> playerRef = player.getReference();
+        if (playerRef == null) {
+          LOGGER.atSevere().log("Target Block Event System: playerRef was null");
+          return;
+        }
 
-    // Check that the player has the wand equipped
-    if (!isWandEquipped(player)) {
-      return;
-    }
+        // Check that the player has the wand equipped
+        if (!isWandEquipped(player)) {
+          return;
+        }
 
-    BrushComponent brushComponent = store.getComponent(playerRef, this.brushComponentType);
-    if (brushComponent == null) {
-      LOGGER.atSevere().log("Target Block Event System: Brush Component on the player was null");
-      return;
-    }
+        BrushComponent brushComponent = store.getComponent(playerRef, this.brushComponentType);
+        if (brushComponent == null) {
+          LOGGER.atSevere().log("Target Block Event System: Brush Component on the player was null");
+          return;
+        }
 
         HeadRotation headRotationComponent = store.getComponent(entityStoreRef, HeadRotation.getComponentType());
         if (headRotationComponent == null) {
@@ -81,8 +81,8 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
             return;
         }
 
-    Vector3i targetBlockLoc = damageBlockEvent.getTargetBlock();
-    Vector3f headRotation = headRotationComponent.getRotation();
+        Vector3i targetBlockLoc = damageBlockEvent.getTargetBlock();
+        Vector3f headRotation = headRotationComponent.getRotation();
 
         TransformComponent entityTransformComp = store.getComponent(entityStoreRef, TransformComponent.getComponentType());
         if (entityTransformComp == null) {
@@ -134,12 +134,12 @@ public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, Damag
                 store
         );
 
-    SoundUtil.playSoundEvent2d(
-        SoundEvent.getAssetMap().getIndex("SFX_Drop_Items_Clay"), SoundCategory.SFX, commandBuffer);
+        SoundUtil.playSoundEvent2d(
+            SoundEvent.getAssetMap().getIndex("SFX_Drop_Items_Clay"), SoundCategory.SFX, commandBuffer);
 
-        String message = String.format("Set Path Block: (%.0f, %.0f, %.0f)", targetBlockLocOnTopOfBlock.x, targetBlockLocOnTopOfBlock.y, targetBlockLocOnTopOfBlock.z);
-        LOGGER.atInfo().log(message);
-        player.sendMessage(Message.raw(message).color(Color.GREEN));
+            String message = String.format("Set Path Block: (%.0f, %.0f, %.0f)", targetBlockLocOnTopOfBlock.x, targetBlockLocOnTopOfBlock.y, targetBlockLocOnTopOfBlock.z);
+            LOGGER.atInfo().log(message);
+            player.sendMessage(Message.raw(message).color(Color.GREEN));
     }
 
   @Override

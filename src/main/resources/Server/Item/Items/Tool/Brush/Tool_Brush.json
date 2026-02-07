@@ -3,7 +3,7 @@
     "Name": "server.items.Tool_Brush.name"
   },
   "Parent": "Tool_Pickaxe_Crude",
-  "Icon": "Icons/ItemsGenerated/Tool_Pickaxe_Wood.png",
+  "Icon": "Icons/ItemsGenerated/Tool_Brush.png",
   "Model": "Items/Tools/Brush/Model.blockymodel",
   "Texture": "Items/Tools/Brush/Texture.png",
   "Recipe": {
@@ -82,5 +82,17 @@
       }
     ]
   },
-  "Quality": "Common"
+  "Quality": "Common",
+  "IconProperties": {
+    "Scale": 0.9,
+    "Rotation": [
+      340,
+      312,
+      331
+    ],
+    "Translation": [
+      -18,
+      -21
+    ]
+  }
 }
