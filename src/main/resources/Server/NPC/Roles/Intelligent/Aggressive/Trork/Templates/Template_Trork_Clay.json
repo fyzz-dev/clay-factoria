@@ -184,6 +184,7 @@
       "Instructions": [
         {
           "$Comment": "Pull item from adjacent chest if stood on a marker block",
+          "Continue": true,
           "Sensor": {
             "Type": "BlockUnder",
             "Block": "Wood_Village_Wall_Green_Full"
@@ -205,6 +206,9 @@
               "Type": "PlayAnimation",
               "Slot": "Status",
               "Animation": "Alerted"
+            },
+            {
+              "Type": "TakeFromNearbyStorage"
             }
           ]
         },

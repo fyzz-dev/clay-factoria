@@ -1,6 +1,7 @@
 package com.clayfactoria;
 
 import com.clayfactoria.actions.builders.BuilderActionSetPath;
+import com.clayfactoria.actions.builders.BuilderActionTakeFromNearbyStorage;
 import com.clayfactoria.actions.builders.BuilderPutItemInHand;
 import com.clayfactoria.components.BrushComponent;
 import com.clayfactoria.components.OwnerComponent;
@@ -73,6 +74,9 @@ public class ClayFactoria extends JavaPlugin {
 
     LOGGER.atInfo().log("Registering Put Item In Hand Action");
     NPCPlugin.get().registerCoreComponentType("PutItemInHand", BuilderPutItemInHand::new);
+
+    LOGGER.atInfo().log("Registering Take From Nearby Storage Action");
+    NPCPlugin.get().registerCoreComponentType("TakeFromNearbyStorage", BuilderActionTakeFromNearbyStorage::new);
   }
 
   private void onPlayerReady(@Nonnull PlayerReadyEvent event) {
