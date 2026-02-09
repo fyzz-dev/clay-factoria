@@ -141,20 +141,6 @@
           "Slot": "Status"
         }
       ]
-    },
-    {
-      "$Comment": "Take an item from a nearby container when moving to BlockMatched",
-      "States": [
-        {
-          "To": [ "BlockMatched" ],
-          "From": [ ]
-        }
-      ],
-      "Actions": [
-        {
-          "Type": "TakeFromNearbyStorage"
-        }
-      ]
     }
   ],
   "Instructions": [
@@ -215,11 +201,40 @@
             "Type": "State",
             "State": "BlockMatched"
           },
-          "Actions": [
+          "Instructions": [
             {
-              "Type": "PlayAnimation",
-              "Slot": "Status",
-              "Animation": "Alerted"
+              "Sensor": {
+                "Type": "State",
+                "State": ".ItemTaken"
+              },
+              "Actions": [
+                {
+                  "$comment": "TODO: Work out why these actions don't seem to actually be running?",
+                  "Type": "PlayAnimation",
+                  "Slot": "Status",
+                  "Animation": "Alerted"
+                },
+                {
+                  "Type": "SpawnParticles",
+                  "Offset": [ 0, 1, 0 ],
+                  "ParticleSystem": "Alerted"
+                }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "Any"
+              },
+              "Actions": [
+                {
+                  "Type": "TakeFromNearbyStorage"
+                },
+                {
+                  "$comment": "TODO: Make it so that it only transfers to this state if the action was successful",
+                  "Type": "State",
+                  "State": ".ItemTaken"
+                }
+              ]
             }
           ]
         },
