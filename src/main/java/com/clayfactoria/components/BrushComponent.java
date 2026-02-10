@@ -8,6 +8,7 @@ import com.hypixel.hytale.codec.codecs.array.ArrayCodec;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.math.vector.Transform;
+import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,47 +19,48 @@ import java.util.Arrays;
 import java.util.List;
 
 public class BrushComponent implements Component<EntityStore> {
-    @Nonnull
-    public static final BuilderCodec<BrushComponent> CODEC = BuilderCodec.builder(BrushComponent.class, BrushComponent::new)
-            .append(new KeyedCodec<>("Path", new ArrayCodec<>(Transform.CODEC, Transform[]::new)),
-                    (comp, transform) -> comp.paths = new ArrayList<>(Arrays.asList(transform)),
-                    (comp) -> comp.paths.toArray(new Transform[0]))
-            .documentation("The Transform positions for pathing").add()
-            .append(new KeyedCodec<>("PathType", PathType.CODEC),
-                    (comp, value) -> comp.pathType = value,
-                    (comp) -> comp.pathType)
-            .documentation("Path type (LOOP or ONCE)").add()
-            .build();
+  @Nonnull
+  public static final BuilderCodec<BrushComponent> CODEC =
+      BuilderCodec.builder(BrushComponent.class, BrushComponent::new)
+          .append(
+              new KeyedCodec<>("Path", new ArrayCodec<>(Vector3d.CODEC, Vector3d[]::new)),
+              (comp, position) -> comp.path = new ArrayList<>(Arrays.asList(position)),
+              (comp) -> comp.path.toArray(new Vector3d[0]))
+          .documentation("The Vector3d positions for pathing")
+          .add()
+          .append(
+              new KeyedCodec<>("PathType", PathType.CODEC),
+              (comp, value) -> comp.pathType = value,
+              (comp) -> comp.pathType)
+          .documentation("Path type (LOOP or ONCE)")
+          .add()
+          .build();
 
-    @Getter
-    @Setter
-    private List<Transform> paths =  new ArrayList<>();
+  @Getter @Setter private List<Vector3d> path = new ArrayList<>();
+  @Getter @Setter private PathType pathType = PathType.LOOP;
 
-    @Getter
-    @Setter
-    private PathType pathType = PathType.LOOP;
+  public void addPath(Vector3d path) {
+    this.path.add(path);
+  }
 
-    public void addPath(Transform path) {
-        paths.add(path);
+  public PathType togglePathType() {
+    if (pathType == PathType.ONCE) {
+      pathType = PathType.LOOP;
+    } else {
+      pathType = PathType.ONCE;
     }
 
-    public PathType togglePathType() {
-        if (pathType == PathType.ONCE) {
-            pathType = PathType.LOOP;
-        } else {
-            pathType = PathType.ONCE;
-        }
+    return pathType;
+  }
 
-        return pathType;
-    }
+  public Component<EntityStore> clone() {
+    BrushComponent brushComponent = new BrushComponent();
+    brushComponent.path = this.path;
+    brushComponent.pathType = this.pathType;
+    return brushComponent;
+  }
 
-    public Component<EntityStore> clone() {
-        BrushComponent brushComponent = new BrushComponent();
-        brushComponent.paths = this.paths;
-        return brushComponent;
-    }
-
-    public static ComponentType<EntityStore, BrushComponent> getComponentType() {
-        return ClayFactoria.brushComponentType;
-    }
+  public static ComponentType<EntityStore, BrushComponent> getComponentType() {
+    return ClayFactoria.brushComponentType;
+  }
 }

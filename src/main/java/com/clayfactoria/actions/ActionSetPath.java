@@ -2,17 +2,16 @@ package com.clayfactoria.actions;
 
 import com.clayfactoria.actions.builders.BuilderActionSetPath;
 import com.clayfactoria.components.BrushComponent;
-import com.clayfactoria.components.OwnerComponent;
-import com.clayfactoria.path.WorldPath;
+import com.clayfactoria.components.TaskComponent;
+import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Transform;
+import com.hypixel.hytale.math.vector.Vector3d;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.hypixel.hytale.server.core.universe.world.path.IPath;
-import com.hypixel.hytale.server.core.universe.world.path.SimplePathWaypoint;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
@@ -24,9 +23,7 @@ import java.awt.Color;
 import java.util.List;
 import javax.annotation.Nonnull;
 
-/**
- * Action triggered to finalise a created path and set it on the target entity.
- */
+/** Action triggered to finalise a created path and set it on the target entity. */
 public class ActionSetPath extends ActionBase {
   private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
@@ -57,13 +54,20 @@ public class ActionSetPath extends ActionBase {
       return false;
     }
 
-    BrushComponent brushComponent = store.getComponent(playerRef, BrushComponent.getComponentType());
+    BrushComponent brushComponent =
+        store.getComponent(playerRef, BrushComponent.getComponentType());
     if (brushComponent == null) {
       LOGGER.atSevere().log("Action Set Path: execute -> brushComponent was null");
       return false;
     }
 
-    NPCEntity npcComponent = store.getComponent(ref, NPCEntity.getComponentType());
+    ComponentType<EntityStore, NPCEntity> npcEntityComponentType = NPCEntity.getComponentType();
+    if (npcEntityComponentType == null) {
+      LOGGER.atSevere().log("Action Set Path: Failed to get NPC Entity Component Type of NPC");
+      return false;
+    }
+
+    NPCEntity npcComponent = store.getComponent(ref, npcEntityComponentType);
     if (npcComponent == null) {
       LOGGER.atSevere().log("Action Set Path: execute -> npcComponent was null");
       return false;
@@ -81,21 +85,24 @@ public class ActionSetPath extends ActionBase {
       return false;
     }
 
-    OwnerComponent ownerComponent = store.ensureAndGetComponent(ref, OwnerComponent.getComponentType());
-    ownerComponent.setPlayerId(playerIdComp.getUuid());
-    LOGGER.atInfo().log("Action Set Path: execute -> Player Id Set for Owner Component on the Entity you just interacted with");
+    TaskComponent taskComponent =
+        store.ensureAndGetComponent(ref, TaskComponent.getComponentType());
+    taskComponent.setPlayerId(playerIdComp.getUuid());
+    LOGGER.atInfo().log(
+        "Action Set Path: execute -> Player Id Set for Owner Component on the Entity you just interacted with");
 
-    if (brushComponent.getPaths() == null) {
+    List<Vector3d> paths = brushComponent.getPath();
+    if (paths == null || paths.isEmpty()) {
       LOGGER.atWarning().log("Action Set Path: execute -> Brush Component: Path Start was null");
-      player.sendMessage(Message.raw("You must set at least one target position with the Brush").color(
-          Color.YELLOW));
+      player.sendMessage(
+          Message.raw("You must set at least one target position with the Brush")
+              .color(Color.YELLOW));
       return false;
     }
 
-    List<Transform> paths = brushComponent.getPaths();
-
-    IPath<SimplePathWaypoint> path = WorldPath.buildPath(paths);
-    npcComponent.getPathManager().setTransientPath(path);
+    // Transfer paths from brush to entity
+    taskComponent.setPath(paths);
+    taskComponent.setCurrentTarget(paths.getFirst());
 
     String message = "Set Pathing";
     player.sendMessage(Message.raw(message));

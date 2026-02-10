@@ -2,7 +2,8 @@ package com.clayfactoria;
 
 import com.clayfactoria.actions.builders.BuilderActionSetPath;
 import com.clayfactoria.components.BrushComponent;
-import com.clayfactoria.components.OwnerComponent;
+import com.clayfactoria.components.TaskComponent;
+import com.clayfactoria.sensors.builders.BuilderSensorLeashTarget;
 import com.clayfactoria.sensors.builders.BuilderSensorPathComplete;
 import com.clayfactoria.sensors.builders.BuilderSensorPathType;
 import com.clayfactoria.systems.TargetBlockEventSystem;
@@ -24,7 +25,7 @@ import javax.annotation.Nonnull;
 public class  ClayFactoria extends JavaPlugin {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     public static ComponentType<EntityStore, BrushComponent> brushComponentType;
-    public static ComponentType<EntityStore, OwnerComponent> ownerComponentType;
+    public static ComponentType<EntityStore, TaskComponent> ownerComponentType;
 
     public ClayFactoria(JavaPluginInit init) {
         super(init);
@@ -35,8 +36,8 @@ public class  ClayFactoria extends JavaPlugin {
     protected void setup() {
         LOGGER.atInfo().log("Registering Brush Component");
         brushComponentType = this.getEntityStoreRegistry().registerComponent(BrushComponent.class, BrushComponent::new);
-        LOGGER.atInfo().log("Registering Owner Component");
-        ownerComponentType = this.getEntityStoreRegistry().registerComponent(OwnerComponent.class, OwnerComponent::new);
+        LOGGER.atInfo().log("Registering Task Component");
+        ownerComponentType = this.getEntityStoreRegistry().registerComponent(TaskComponent.class, TaskComponent::new);
         LOGGER.atInfo().log("Registering on Player Ready Event");
         this.getEventRegistry().registerGlobal(PlayerReadyEvent.class, this::onPlayerReady);
     }
@@ -56,11 +57,8 @@ public class  ClayFactoria extends JavaPlugin {
         LOGGER.atInfo().log("Registering Set Path Action");
         NPCPlugin.get().registerCoreComponentType("SetPath", BuilderActionSetPath::new);
 
-        LOGGER.atInfo().log("Registering Sensor Path Complete");
-        NPCPlugin.get().registerCoreComponentType("PathComplete", BuilderSensorPathComplete::new);
-
-        LOGGER.atInfo().log("Registering Sensor Path Type");
-        NPCPlugin.get().registerCoreComponentType("PathType", BuilderSensorPathType::new);
+        LOGGER.atInfo().log("Registering Sensor Leash Target");
+        NPCPlugin.get().registerCoreComponentType("LeashTarget", BuilderSensorLeashTarget::new);
     }
 
     private void onPlayerReady(@Nonnull PlayerReadyEvent event) {
