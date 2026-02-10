@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class TargetBlockEventSystem extends EntityEventSystem<EntityStore, DamageBlockEvent> {
   /** ID of the item to use as a wand for setting Automaton paths. */
-  private static final String WAND_ITEM_ID = "Ingredient_Stick";
+  private static final String WAND_ITEM_ID = "Tool_Brush";
 
   private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
   private final ComponentType<EntityStore, BrushComponent> brushComponentType =

@@ -239,7 +239,7 @@
                 "Filters": [
                   {
                     "Type": "ItemInHand",
-                    "Items": ["Ingredient_Stick"]
+                    "Items": ["Tool_Brush"]
                   }
                 ]
               },
@@ -297,7 +297,7 @@
                     {
                       "Type": "ItemInHand",
                       "Items": [
-                        "Ingredient_Stick"
+                        "Tool_Brush"
                       ]
                     }
                   ]
@@ -403,7 +403,7 @@
                     {
                       "Type": "ItemInHand",
                       "Items": [
-                        "Ingredient_Stick"
+                        "Tool_Brush"
                       ]
                     }
                   ]
@@ -475,8 +475,7 @@
                         "Filters": [
                           {
                             "Type": "ItemInHand",
-                            "$Comment": "TODO: Replace with Brush Item",
-                            "Items": ["Ingredient_Stick"]
+                            "Items": ["Tool_Brush"]
                           }
                         ]
                       },
@@ -525,8 +524,7 @@
                   "Filters": [
                     {
                       "Type": "ItemInHand",
-                      "$Comment": "TODO: Replace with Brush Item",
-                      "Items": ["Ingredient_Stick"]
+                      "Items": ["Tool_Brush"]
                     }
                   ]
                 },
@@ -556,8 +554,7 @@
                   "Filters": [
                     {
                       "Type": "ItemInHand",
-                      "$Comment": "TODO: Replace with Brush Item",
-                      "Items": ["Ingredient_Stick"]
+                      "Items": ["Tool_Brush"]
                     }
                   ]
                 },
