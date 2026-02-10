@@ -1,6 +1,7 @@
 {
   "Type": "Abstract",
   "StartState": "Idle",
+  "Debug": "DisplayState",
   "Parameters": {
     "Appearance": {
       "Value": "Kweebec_Clay",
@@ -417,8 +418,8 @@
             },
             {
               "Sensor": {
-                "Type": "Path",
-                "PathType": "TransientPath"
+                "$Comment": "Initially gets us into the pathing state",
+                "Type": "LeashTarget"
               },
               "Actions": [
                 {
@@ -437,36 +438,15 @@
           },
           "Instructions": [
             {
+              "$Comment": "Loops through each point stored in TaskComponent and sets leash target so seek can navigate there",
               "Sensor": {
-                "Type": "And",
-                "Sensors": [
-                  {
-                    "Type": "PathComplete",
-                    "IsComplete": true
-                  },
-                  {
-                    "Type": "PathType",
-                    "PathType": "ONCE"
-                  }
-                ]
-              },
-              "Actions": [
-                {
-                  "Type": "State",
-                  "State": "Idle"
-                }
-              ]
-            },
-            {
-              "Sensor": {
-                "Type": "Path",
-                "PathType": "TransientPath"
+                "Type": "LeashTarget"
               },
               "BodyMotion": {
-                "Type": "Path",
-                "UseNodeViewDirection": true,
-                "PickRandomAngle": true,
-                "Shape": "LOOP"
+                "Type": "Seek",
+                "SlowDownDistance": 1,
+                "StopDistance": 0.1,
+                "RelativeSpeed": 0.55
               }
             }
           ]
