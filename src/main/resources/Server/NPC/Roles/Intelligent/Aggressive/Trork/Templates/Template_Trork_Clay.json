@@ -578,7 +578,7 @@
           {
             "Continue": true,
             "Sensor": {
-              "$Comment": "Switch to Alerted if Hostile",
+              "$Comment": "Switch to Alerted if player has Brush",
               "Type": "Or",
               "Sensors": [
                 {
@@ -593,7 +593,7 @@
                   ]
                 },
                 {
-                  "$Comment": "Set Interacble to true when in Path state",
+                  "$Comment": "Set Interactable to true when in Path state",
                   "Type": "State",
                   "State": "Path"
                 }
