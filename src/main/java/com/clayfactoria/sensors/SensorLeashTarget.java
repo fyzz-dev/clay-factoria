@@ -1,5 +1,7 @@
 package com.clayfactoria.sensors;
 
+import static java.lang.System.in;
+
 import com.clayfactoria.codecs.Action;
 import com.clayfactoria.codecs.Task;
 import com.clayfactoria.components.TaskComponent;
@@ -85,7 +87,6 @@ public class SensorLeashTarget extends SensorBase {
         if (nextTask == null) {
           this.positionProvider.clear();
           LOGGER.atInfo().log("Sensor Leash Target: nextTask was null. Clearing Position Provider");
-          taskComponent.setComplete(false);
           return false;
         }
 

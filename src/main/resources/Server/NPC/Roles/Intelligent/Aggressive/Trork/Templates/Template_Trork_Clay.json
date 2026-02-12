@@ -473,6 +473,18 @@
           },
           "Instructions": [
             {
+              "$Comment": "Sense nearby containers and run the action if the Task's Action is equal to 'DEPOSIT'",
+              "Sensor": {
+                "Type": "NearbyContainer",
+                "Action": "DEPOSIT"
+              },
+              "Actions": [
+                {
+                  "Type": "Deposit"
+                }
+              ]
+            },
+            {
               "$Comment": "Sense nearby containers and run the action if the Task's Action is equal to 'TAKE'",
               "Sensor": {
                 "Type": "NearbyContainer",
@@ -481,20 +493,6 @@
               "Actions": [
                 {
                   "Type": "Take"
-                }
-              ]
-            },
-            {
-              "$Comment": "Sense nearby containers and run the action if the Task's Action is equal to 'DEPOSIT'",
-              "Sensor": {
-                "Type": "NearbyContainer",
-                "Action": "DEPOSIT"
-              },
-              "Actions": [
-                {
-                  "$Comment": "Switch to Type: Deposit",
-                  "Type": "State",
-                  "State": "Idle"
                 }
               ]
             },

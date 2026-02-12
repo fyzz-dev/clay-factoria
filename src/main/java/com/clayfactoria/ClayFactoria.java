@@ -1,5 +1,6 @@
 package com.clayfactoria;
 
+import com.clayfactoria.actions.builders.BuilderActionDeposit;
 import com.clayfactoria.actions.builders.BuilderActionSetPath;
 import com.clayfactoria.actions.builders.BuilderActionTake;
 import com.clayfactoria.actions.builders.BuilderPutItemInHand;
@@ -81,10 +82,11 @@ public class ClayFactoria extends JavaPlugin {
     LOGGER.atInfo().log("Registering Put Item In Hand Action");
     NPCPlugin.get().registerCoreComponentType("PutItemInHand", BuilderPutItemInHand::new);
 
-    LOGGER.atInfo().log("Registering Take From Nearby Storage Action");
-    NPCPlugin.get()
-        .registerCoreComponentType(
-            "Take", BuilderActionTake::new);
+    LOGGER.atInfo().log("Registering Take From Nearby Storage or Station Action");
+    NPCPlugin.get().registerCoreComponentType("Take", BuilderActionTake::new);
+
+    LOGGER.atInfo().log("Registering Deposit From Nearby Storage or Station Action");
+    NPCPlugin.get().registerCoreComponentType("Deposit", BuilderActionDeposit::new);
   }
 
   private void onPlayerReady(@Nonnull PlayerReadyEvent event) {
