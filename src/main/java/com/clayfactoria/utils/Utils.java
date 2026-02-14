@@ -11,10 +11,11 @@ public class Utils {
    * @param msg The message to attach to the NullPointerException if <code>obj == null</code>
    * @throws NullPointerException If <code>obj == null</code>
    */
-  public static void checkNull(Object obj, @Nullable String msg) throws NullPointerException {
+  public static <T> T checkNull(T obj, @Nullable String msg) throws NullPointerException {
     if (obj == null) {
       throw new NullPointerException(msg);
     }
+    return obj;
   }
 
   /**
@@ -24,7 +25,7 @@ public class Utils {
    * @param obj The object to check.
    * @throws NullPointerException If <code>obj == null</code>
    */
-  public static void checkNull(Object obj) throws NullPointerException {
-    checkNull(obj, null);
+  public static <T> T checkNull(T obj) throws NullPointerException {
+    return checkNull(obj, null);
   }
 }

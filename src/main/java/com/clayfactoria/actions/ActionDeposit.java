@@ -5,6 +5,7 @@ import static com.clayfactoria.utils.Utils.checkNull;
 
 import com.clayfactoria.actions.builders.BuilderActionDeposit;
 import com.clayfactoria.components.TaskComponent;
+import com.clayfactoria.utils.ContainerSlot;
 import com.clayfactoria.utils.TaskHelper;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
@@ -38,15 +39,16 @@ public class ActionDeposit extends ActionBaseLogger {
       double dt,
       @Nonnull Store<EntityStore> store) {
     NPCEntity npcEntity = getNPCEntity(ref, store);
-    ItemContainer itemContainer = TaskHelper.getOrthogonalContainer(npcEntity);
+    ItemContainer itemContainer = TaskHelper.getOrthogonalContainer(npcEntity, ContainerSlot.Input);
     checkNull(itemContainer);
 
     TaskComponent taskComponent = store.getComponent(ref, TaskComponent.getComponentType());
     checkNull(taskComponent, "Task Component was null");
 
     // Deposit an item to the container or station
-    boolean result =
-        TaskHelper.transferItem(npcEntity.getInventory().getCombinedStorageFirst(), itemContainer);
+    boolean result = TaskHelper.transferItem(
+        npcEntity.getInventory().getCombinedStorageFirst(), itemContainer
+    );
 
     if (result) {
       LOGGER.atInfo().log("Action Deposit: Set Complete to true");

@@ -5,6 +5,7 @@ import static com.clayfactoria.utils.Utils.checkNull;
 
 import com.clayfactoria.actions.builders.BuilderActionTake;
 import com.clayfactoria.components.TaskComponent;
+import com.clayfactoria.utils.ContainerSlot;
 import com.clayfactoria.utils.TaskHelper;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
@@ -35,7 +36,7 @@ public class ActionTake extends ActionBaseLogger {
       double dt,
       @Nonnull Store<EntityStore> store) {
     NPCEntity npcEntity = getNPCEntity(ref, store);
-    ItemContainer itemContainer = TaskHelper.getOrthogonalContainer(npcEntity);
+    ItemContainer itemContainer = TaskHelper.getOrthogonalContainer(npcEntity, ContainerSlot.Output);
     checkNull(itemContainer);
 
     TaskComponent taskComponent = store.getComponent(ref, TaskComponent.getComponentType());

@@ -2,16 +2,21 @@ package com.clayfactoria.utils;
 
 import static com.clayfactoria.utils.Utils.checkNull;
 
+import com.hypixel.hytale.builtin.crafting.state.ProcessingBenchState;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Vector3i;
+import com.hypixel.hytale.protocol.BlockPosition;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.StateData;
+import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
+import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.EntityChunk;
 import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
@@ -27,6 +32,7 @@ import javax.annotation.Nullable;
 
 public class TaskHelper {
   private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+  private static final String[] CONTAINER_STATE_IDS = {"container", "processingBench"};
 
   @Nonnull
   public static NPCEntity getNPCEntity(
@@ -39,12 +45,17 @@ public class TaskHelper {
   }
 
   @Nullable
-  public static ItemContainer getOrthogonalContainer(NPCEntity npcEntity) {
+  public static ItemContainer getOrthogonalContainer(NPCEntity npcEntity, @Nullable ContainerSlot containerSlot) {
     World world = npcEntity.getWorld();
     checkNull(world);
     Vector3i pos = findNearbyContainer(npcEntity, world);
     checkNull(pos);
-    return getItemContainerAtPos(world, pos);
+    return getItemContainerAtPos(world, pos, containerSlot);
+  }
+
+  @Nullable
+  public static ItemContainer getOrthogonalContainer(NPCEntity npcEntity) {
+    return getOrthogonalContainer(npcEntity, null);
   }
 
   @Nullable
@@ -71,10 +82,10 @@ public class TaskHelper {
       if (type == null) {
         continue;
       }
-      StateData blockState = type.getState();
-      if (blockState == null
-          || blockState.getId() == null
-          || !blockState.getId().equals("container")) {
+      StateData stateData = type.getState();
+      if (stateData == null
+          || stateData.getId() == null
+          || Arrays.stream(CONTAINER_STATE_IDS).noneMatch(stateData.getId()::equals)) {
         continue;
       }
       return pos.add(dir);
@@ -82,28 +93,56 @@ public class TaskHelper {
     return null;
   }
 
-  public static @Nullable ItemContainer getItemContainerAtPos(World world, Vector3i pos) {
+  public static ItemContainer getItemContainerAtPos(
+      World world,
+      Vector3i pos,
+      @Nullable ContainerSlot containerSlot
+  ) {
+    BlockState blockState = checkNull(
+        getBlockStateAtPos(world, pos),
+        "null BlockState at position where container was expected: " + pos
+    );
+    // Normal Item Container
+    if (blockState.getClass() == ItemContainerState.class) {
+      return ((ItemContainerState) blockState).getItemContainer();
+    }
+    // Processing Bench
+    else if (blockState.getClass() == ProcessingBenchState.class) {
+      CombinedItemContainer comb = ((ProcessingBenchState) blockState).getItemContainer();
+      switch (containerSlot) {
+        case Fuel -> {
+          return comb.getContainer(0);
+        }
+        case Input -> {
+          return comb.getContainer(1);
+        }
+        case Output -> {
+          return comb.getContainer(2);
+        }
+        default -> {
+          return comb;
+        }
+      }
+    }
+
+    // Unexpected BlockState
+    else {
+      LOGGER.atSevere().log(String.format(
+          "Unexpected BlockState \"%s\" at %s.",
+          blockState.getClass(), pos));
+      return null;
+    }
+  }
+
+  @Nullable
+  public static BlockState getBlockStateAtPos(World world, Vector3i pos) {
     long chunkIndex = ChunkUtil.indexChunkFromBlock(pos.x, pos.z);
     WorldChunk worldChunk = world.getChunk(chunkIndex);
-    assert worldChunk != null;
+    checkNull(worldChunk);
     EntityChunk entityChunk = worldChunk.getEntityChunk();
-    assert entityChunk != null;
-    BlockState blockState = world.getState(pos.x, pos.y, pos.z, false);
-    if (blockState == null) {
-      LOGGER.atSevere().log(
-          "ActionTakeFromNearbyStorage -> null BlockState at position where container was expected: "
-              + pos);
-      return null;
-    }
-    if (blockState.getClass() != ItemContainerState.class) {
-      LOGGER.atSevere().log(
-          String.format(
-              "ActionTakeFromNearbyStorage -> BlockState at %s was %s where ItemContainerState was expected",
-              pos, blockState.getClass()));
-      return null;
-    }
-    ItemContainerState itemContainerState = (ItemContainerState) blockState;
-    return itemContainerState.getItemContainer();
+    checkNull(entityChunk);
+    BlockPosition base = world.getBaseBlock(new BlockPosition(pos.x, pos.y, pos.z));
+    return world.getState(base.x, base.y, base.z, false);
   }
 
   public static boolean transferItem(ItemContainer source, ItemContainer target) {

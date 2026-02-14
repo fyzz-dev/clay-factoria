@@ -2,6 +2,7 @@
   "Type": "Abstract",
   "Debug": "DisplayState",
   "StartState": "Idle",
+  "DropInventoryOnDeath": true,
   "Parameters": {
     "Appearance": {
       "Value": "Trork_Clay",

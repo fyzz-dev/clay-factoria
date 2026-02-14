@@ -5,9 +5,8 @@ import com.clayfactoria.actions.builders.BuilderActionSetPath;
 import com.clayfactoria.actions.builders.BuilderActionTake;
 import com.clayfactoria.actions.builders.BuilderPutItemInHand;
 import com.clayfactoria.components.BrushComponent;
+import com.clayfactoria.components.DropInventoryOnDeathComponent;
 import com.clayfactoria.components.HasTakenFromContainerComponent;
-import com.clayfactoria.sensors.builders.BuilderSensorBlockUnder;
-import com.clayfactoria.sensors.builders.BuilderSensorHasTakenFromContainer;
 import com.clayfactoria.components.TaskComponent;
 import com.clayfactoria.sensors.builders.BuilderSensorLeashTarget;
 import com.clayfactoria.sensors.builders.BuilderSensorNearbyContainer;
@@ -33,6 +32,8 @@ public class ClayFactoria extends JavaPlugin {
   public static ComponentType<EntityStore, TaskComponent> ownerComponentType;
   public static ComponentType<EntityStore, HasTakenFromContainerComponent>
       hasTakenFromContainerComponentType;
+  public static ComponentType<EntityStore, DropInventoryOnDeathComponent>
+      dropInventoryOnDeathComponentType;
 
   public ClayFactoria(JavaPluginInit init) {
     super(init);
@@ -53,6 +54,11 @@ public class ClayFactoria extends JavaPlugin {
         this.getEntityStoreRegistry()
             .registerComponent(
                 HasTakenFromContainerComponent.class, HasTakenFromContainerComponent::new);
+    LOGGER.atInfo().log("Registering DropInventoryOnDeath Component");
+    dropInventoryOnDeathComponentType =
+        this.getEntityStoreRegistry()
+            .registerComponent(
+                DropInventoryOnDeathComponent.class, DropInventoryOnDeathComponent::new);
     LOGGER.atInfo().log("Registering on Player Ready Event");
     this.getEventRegistry().registerGlobal(PlayerReadyEvent.class, this::onPlayerReady);
   }
