@@ -16,6 +16,8 @@ import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
+import com.hypixel.hytale.server.core.inventory.transaction.ItemStackTransaction;
+import com.hypixel.hytale.server.core.inventory.transaction.MoveTransaction;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.EntityChunk;
@@ -151,8 +153,15 @@ public class TaskHelper {
       if (itemStack == null) {
         continue;
       }
+      int prevQuantity = itemStack.getQuantity();
       source.moveItemStackFromSlot(slot, 1, target);
-      return true;
+      // Check whether it actually succeeded to transfer
+      itemStack = source.getItemStack(slot);
+      if (itemStack == null) {
+        return true;
+      } else {
+        return itemStack.getQuantity() == prevQuantity-1;
+      }
     }
     // No item found in storage, return false for failure.
     return false;

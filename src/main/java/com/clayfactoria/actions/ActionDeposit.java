@@ -37,22 +37,26 @@ public class ActionDeposit extends ActionBaseLogger {
       double dt,
       @Nonnull Store<EntityStore> store) {
     NPCEntity npcEntity = getNPCEntity(ref, store);
-    ItemContainer itemContainer = TaskHelper.getOrthogonalContainer(npcEntity, ContainerSlot.Input);
-    checkNull(itemContainer);
-
     TaskComponent taskComponent = store.getComponent(ref, TaskComponent.getComponentType());
     checkNull(taskComponent, "Task Component was null");
 
-    // Deposit an item to the container or station
+    // Attempt to deposit as fuel first (if this is a station with a fuel slot)
+    if (deposit(ContainerSlot.Fuel, npcEntity, taskComponent)) {
+      return true;
+    }
+    return deposit(ContainerSlot.Input, npcEntity, taskComponent);
+  }
+
+  private boolean deposit(ContainerSlot containerSlot, NPCEntity npcEntity, TaskComponent taskComponent) {
+    ItemContainer itemContainer = TaskHelper.getOrthogonalContainer(npcEntity, containerSlot);
+    checkNull(itemContainer);
     boolean result = TaskHelper.transferItem(
         npcEntity.getInventory().getCombinedStorageFirst(), itemContainer
     );
-
     if (result) {
-      LOGGER.atInfo().log("Action Deposit: Set Complete to true");
+      LOGGER.atInfo().log("Deposit action complete ["+ containerSlot + "]");
       taskComponent.setComplete(true);
     }
-
     return result;
   }
 }
